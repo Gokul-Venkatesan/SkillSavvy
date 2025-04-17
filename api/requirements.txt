@@ -1,0 +1,21 @@
+Python Dependencies for my SkillSavvy, Resume Analyzer Program
+
+✅ Web Framework
+fastapi – for building the API
+
+✅ Natural Language Processing (NLP)
+spacy – NLP processing
+spacy.matcher.PhraseMatcher – likely a subcomponent of spaCy
+
+✅ Optical Character Recognition (OCR) & Document Parsing
+pytesseract – OCR using Tesseract
+pdfplumber – to extract text from PDFs
+python-docx – to read .docx files
+
+✅ Fuzzy Matching
+rapidfuzz – for comparing and scoring similarity (used in resume-job matching)
+
+✅ Regex & Phone Number Parsing
+re – standard Python regex (no need to install separately)
+phonenumbers – to extract and format phone numbers
+
