@@ -12,6 +12,7 @@ Gokul - 7-Apr-2025, created the basics for text, word and PDF as part of learnin
 12-Apr-2025, added OCR for Image
 15-Apr-2025, Finalized with score part
 16-Apr-2025, Added OCR quality and confidence
+20-Apr-2025, 21-Apr-2025, added Resume feedback
 """
 
 import os # interact with the operating system. folders, file paths
@@ -39,10 +40,8 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 
 # Predefined key skills
 skills_list = [
-    "Python", "Java", "JavaScript", "C++", "SQL", "Machine Learning", "Data Analysis", "Deep Learning",
-    "Artificial Intelligence", "Angular", 
-    "Project Management", "Teamwork", "Communication", "Leadership", "Problem Solving", "Agile",
-    "Cloud Computing", "AWS", "Azure", "React", "Node.js", "Git", "Docker", "Excel", "Tableau"
+    "Python", "Machine Learning", "Artificial Intelligence", "Angular", "Natural Language Processing",
+    "AWS", "Git"
 ]
 
 # Abbreviations normalization map
@@ -50,13 +49,12 @@ skill_aliases = {
     "js": "JavaScript",
     "ml": "Machine Learning",
     "ai": "Artificial Intelligence",
-    "sql db": "SQL",
-    "nlp": "Natural Language Processing"
+    "nlp": "Natural Language Processing",
+    "sql db": "SQL"
 }
 
 soft_skills = [
-    "Teamwork", "Communication", "Leadership", "Problem Solving", "Time Management", "Creativity",
-    "Adaptability", "Critical Thinking", "Decision Making"
+    "Teamwork", "Communication", "Leadership"
 ]
 
 # Convert to lowercase for better matching
@@ -143,7 +141,7 @@ def extract_resume_text(file_path):
     
 # --- Email and Phone Extractor ---
 def extract_contact_info(text):
-
+    
     email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b' #RegEx
     
     #phone_pattern = r'(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}' # US Pattern
@@ -157,7 +155,7 @@ def extract_contact_info(text):
 
     emails = re.findall(email_pattern, text)
     phones = extract_valid_phone_numbers(text)
-    
+
     return list(set(emails)), list(set(phones))
 
 #  more accurate than trying to extract phone numbers with regex
@@ -212,45 +210,133 @@ def extract_keywords_from_job(job_text):
 def extract_skills(text, job_desc=None, custom_skills=[], custom_soft_skills=[]):
     dynamic_keywords = extract_keywords_from_job(job_desc) if job_desc else []
     
-    all_tech = set(skills_list + custom_skills + dynamic_keywords)
-    all_soft = set(soft_skills + custom_soft_skills)
+    #all_tech = set(skills_list + custom_skills + dynamic_keywords)
+    #all_soft = set(soft_skills + custom_soft_skills)
+
+    all_tech = set([normalize_skill(s).lower().strip() for s in skills_list + custom_skills + dynamic_keywords])
+    all_soft = set([s.lower().strip() for s in soft_skills + custom_soft_skills])
 
     tech_matches = fuzzy_match_skills(text, all_tech)
     soft_matches = fuzzy_match_skills(text, all_soft)
 
-    return sorted(tech_matches), sorted(soft_matches)
+    #return sorted(tech_matches), sorted(soft_matches)
+    return sorted([s.title() for s in tech_matches]), sorted([s.title() for s in soft_matches])
 
-def compare_resume_to_job(resume_text, job_text, custom_skills=[], custom_soft_skills=[]):
+def compare_resume_to_job(resume_text, job_text, years_of_experience, custom_skills=[], custom_soft_skills=[]):
     resume_tech, resume_soft = extract_skills(resume_text, job_text, custom_skills, custom_soft_skills)
     job_tech, job_soft = extract_skills(job_text)
 
     total = set(job_tech + job_soft)
     matched = set(resume_tech + resume_soft).intersection(total)
+    missing_skills = total - matched
 
     score = (len(matched) / len(total)) * 100 if total else 0
-    return round(score, 2), sorted(matched)
+    #return round(score, 2), sorted(matched)
 
-# Define your folder and file name
-#folder = "Resume"
-#filename = "Sample-Resume.txt" # try with .pdf, .docx, .txt, .png etc.
+    # Extra analyses
+    length_info = analyze_resume_length(resume_text)
+    verbs_used, verb_count = extract_action_verbs(resume_text)
+    
+    feedback = generate_resume_feedback(length_info["word_count"], verb_count, years_of_experience)
+
+    return {
+        "score": round(score, 2),
+        "matched_skills": sorted(matched),
+        "missing_skills": sorted(missing_skills),
+        "total_required": len(total),
+        "total_matched": len(matched),
+        #"resume_skills": sorted(set(resume_tech + resume_soft)),
+        #"required_skills": sorted(total),
+        #"word_count": length_info["word_count"],
+        #"paragraph_count": length_info["paragraph_count"],
+        #"action_verbs_used": verbs_used,
+        #"action_verb_count": verb_count,
+        "feedback": feedback
+        }
+
+# Experience in years → Recommended word count range
+experience_ranges = [
+    (0, 2, (250, 500)),     # Freshers
+    (3, 7, (350, 800)),     # Early career
+    (8, 15, (500, 1200)),   # Mid-career
+    (16, 25, (700, 1500)),  # Senior
+    (26, 75, (900, 1700)),  # Executive
+]
+
+def analyze_resume_length(resume_text):
+    words = resume_text.split()
+    paragraphs = [p for p in resume_text.split("\n") if p.strip()]
+    return {
+        "word_count": len(words),
+        "paragraph_count": len(paragraphs)
+    }
+
+action_verbs = [
+    "developed", "led", "managed", "designed", "implemented", "created", "initiated",
+    "analyzed", "built", "increased", "reduced", "solved", "engineered", "launched",
+    "improved", "organized", "collaborated", "coordinated", "executed", "delivered"
+]
+
+def extract_action_verbs(resume_text):
+    words = re.findall(r'\b\w+\b', resume_text.lower())
+    verbs_used = [verb for verb in action_verbs if verb in words]
+    return sorted(set(verbs_used)), len(verbs_used)
+
+def generate_resume_feedback(word_count, verb_count, years_of_experience):
+    feedback = []
+
+    # Determine appropriate range
+    ideal_min, ideal_max = 500, 900  # default
+    for min_exp, max_exp, (min_words, max_words) in experience_ranges:
+        if min_exp <= years_of_experience <= max_exp:
+            ideal_min, ideal_max = min_words, max_words
+            break
+
+    # Length feedback
+    if word_count < ideal_min:
+        feedback.append(f"📄 The resume may be too short for {years_of_experience} years of experience. Consider expanding with more achievements.")
+    elif word_count > ideal_max:
+        feedback.append(f"📝 The resume is quite long for {years_of_experience} years of experience. Consider trimming older or less relevant content.")
+    else:
+        feedback.append("✅ Resume length looks appropriate for your experience level.")
+
+    # Verb usage feedback
+    if verb_count < 5:
+        feedback.append("⚠️ Very few action verbs detected. Use strong verbs like 'developed', 'managed', or 'led' to highlight accomplishments.")
+    elif verb_count < 10:
+        feedback.append("👍 Moderate use of action verbs. Adding more impactful verbs could improve readability.")
+    else:
+        feedback.append("✅ Great use of action verbs to describe achievements.")
+
+    return feedback
+
+
+### Testing manually ###
 
 #job_text = """Looking for a candidate with skills in Python, Machine Learning, AI, communication, and project management."""
 
+"""
+# Define your folder and file name
+folder = "Resume"
+filename = "Sample-Resume.txt" # try with .pdf, .docx, .txt, .png etc.
+#Sample-Resume.txt
+#Gokul_Venkatesan.PDF
+
 # Combine them into a full path
-#resume_path = os.path.join(folder, filename)
-#resume_text = extract_resume_text(resume_path)
+resume_path = os.path.join(folder, filename)
+resume_text = extract_resume_text(resume_path)
+resume_text = resume_text[0]
 
-#emails, phones = extract_contact_info(resume_text)
+emails, phones = extract_contact_info(resume_text)
+print(emails, phones)
 
-#extracted_skills = extract_skills(resume_text)
-#print("Extracted Skills: ", extracted_skills)
+extracted_skills = extract_skills(resume_text)
+print("Extracted Skills: ", extracted_skills)
 
-#match_score, matched_skills = compare_resume_to_job(resume_text, job_text)
-#print(f"Match Score: {match_score}%")
-#print("Matched Skills: ", matched_skills)
-
-#print("✅ model.py loaded")
-
+match_score, matched_skills = compare_resume_to_job(resume_text, job_text)
+print(f"Match Score: {match_score}%")
+print("Matched Skills: ", matched_skills)
+"""
 """
 print("\n📄 Extracted Resume Text (preview):")
 print(resume_text[:1000])
