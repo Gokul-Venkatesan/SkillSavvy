@@ -1,26 +1,26 @@
-Python Dependencies for my SkillSavvy, Resume Analyzer Program
+# Python Dependencies for my SkillSavvy, AI Powered Resume Analyzer Program
 
-✅ Web Framework
-fastapi – for building the API
-slowapi – for rate limiting and request throttling in FastAPI
-uuid – built-in Python module for generating unique identifiers (no need to install separately)
+# ✅ Web Framework
+fastapi # for building the API
+slowapi # for rate limiting and request throttling in FastAPI
+# uuid # built-in Python module for generating unique identifiers (no need to install separately)
 
-✅ Natural Language Processing (NLP)
-spacy – NLP processing
-spacy.matcher.PhraseMatcher – likely a subcomponent of spaCy
+# ✅ Natural Language Processing (NLP)
+spacy # NLP processing
+# spacy.matcher.PhraseMatcher # likely a subcomponent of spaCy
 
-✅ Optical Character Recognition (OCR) & Document Parsing
-pytesseract – OCR using Tesseract
-pdfplumber – to extract text from PDFs
-python-docx – to read .docx files
+# ✅ Optical Character Recognition (OCR) & Document Parsing
+pytesseract # OCR using Tesseract
+pdfplumber # to extract text from PDFs
+python-docx # to read .docx files
 
-✅ Fuzzy Matching
-rapidfuzz – for comparing and scoring similarity (used in resume-job matching)
+# ✅ Fuzzy Matching
+rapidfuzz # for comparing and scoring similarity (used in resume-job matching)
 
-✅ Regex & Phone Number Parsing
-re – standard Python regex (no need to install separately)
-phonenumbers – to extract and format phone numbers
+# ✅ Regex & Phone Number Parsing
+# re # standard Python regex (no need to install separately)
+phonenumbers # to extract and format phone numbers
 
-✅ Middleware & CORS
-fastapi.middleware.cors – CORS (Cross-Origin Resource Sharing) support to allow cross-origin requests
-
+# ✅ Middleware & CORS
+# fastapi.middleware.cors # CORS (Cross-Origin Resource Sharing) support to allow cross-origin requests
+python-dotenv # load environment variables from a .env file into your FastAPI app

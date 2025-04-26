@@ -5,7 +5,7 @@
 //Gokul, 20-Apr-2025, 21-Apr-2025, added Resume feedback and loading message
 //Gokul, 22-Apr to 23-Apr - File upload restriction, SSL enaled, RWD enabled, Improvised parsing
 // Identified a major issue in skills capture utilization & fixed
-
+// Added Env variable, 26-Apr-2025
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -114,8 +115,8 @@ export class AppComponent {
     formData.append('years_of_experience', this.experienceYears.toString());
 
     this.isLoading = true;
-
-    this.http.post('https://localhost:8000/analyze-resume', formData).subscribe({
+    
+    this.http.post(`${environment.apiUrl}/analyze-resume`, formData).subscribe({
       next: (data) => {
         this.result = data;
         this.isLoading = false;

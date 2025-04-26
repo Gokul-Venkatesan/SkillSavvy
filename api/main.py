@@ -10,6 +10,7 @@ Gokul - 15-Apr-2025, created API call using FastAPI to call the model
 20-Apr-2025, 21-Apr-2025, added Resume feedback
 22-Apr to 23-Apr - File upload restriction, SSL enaled, Improvised parsing, Identified a major issue in skills capture utilization & fixed
 UUID & Rate limit for API implementation
+26-Apr-2025, added ENV variable
 """
 
 import os
@@ -28,20 +29,34 @@ from fastapi.responses import JSONResponse
 from slowapi.util import get_remote_address
 
 import model  # full import so we can access all functions
+from dotenv import load_dotenv
 
+# Load environment variables from .env
+load_dotenv()
 
 #Initiate FastAPI
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    #allow_origins=["https://localhost:55397/"],  # Angular default dev port
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+ENV = os.getenv("ENVIRONMENT")
+API_URL = os.getenv("API_URL")
 
+if ENV == "production":
+        app.add_middleware(
+        CORSMiddleware,
+        origins = API_URL,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        #allow_origins=["https://localhost:55397/"],  # Angular default dev port
+        allow_origins=["*"],
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 limiter = Limiter(key_func=get_remote_address)  # Use IP address for limiting
 

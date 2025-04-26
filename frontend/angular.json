@@ -79,8 +79,8 @@
           "options": {
             "port": 55397,
             "ssl": true,
-            "sslKey": "C:/Users/Lenovo/Desktop/Anu-Goks/Udemy/Python-LinkedIn/SkillSavvy/SSL/localhost.key",
-            "sslCert": "C:/Users/Lenovo/Desktop/Anu-Goks/Udemy/Python-LinkedIn/SkillSavvy/SSL/localhost.crt"
+            "sslKey": "SSL/localhost.key",
+            "sslCert": "SSL/localhost.crt"
 
           }
         },
