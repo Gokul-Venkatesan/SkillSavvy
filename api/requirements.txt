@@ -1,7 +1,9 @@
 # Python Dependencies for my SkillSavvy, AI Powered Resume Analyzer Program
 
 # ✅ Web Framework
-fastapi # for building the API
+
+fastapi[all] # for building the API
+uvicorn
 slowapi # for rate limiting and request throttling in FastAPI
 # uuid # built-in Python module for generating unique identifiers (no need to install separately)
 
