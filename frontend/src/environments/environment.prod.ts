@@ -2,5 +2,5 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://your-fastapi-app.onrender.com'
+  apiUrl: 'https://skillsavvy.onrender.com'
 };
