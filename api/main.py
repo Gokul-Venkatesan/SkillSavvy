@@ -31,9 +31,6 @@ from slowapi.util import get_remote_address
 import model  # full import so we can access all functions
 from dotenv import load_dotenv
 
-import shutil
-print("✅ Tesseract path (should NOT be None):", shutil.which("tesseract"))
-
 # Load environment variables from .env
 load_dotenv()
 

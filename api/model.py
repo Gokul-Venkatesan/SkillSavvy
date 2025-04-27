@@ -32,23 +32,11 @@ from rapidfuzz import fuzz # fast string matching library for fuzzy matching and
 
 import json
 
-import shutil
-print("✅ Tesseract path (should NOT be None):", shutil.which("tesseract"))
-
 # Specify the path to the Tesseract binary
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
-
-try:
-    tesseract_version = pytesseract.get_tesseract_version()
-    print(f"Tesseract Version: {tesseract_version}")
-except Exception as e:
-    print(f"Error: Tesseract is not installed or not accessible. {str(e)}")
-    
+   
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
-
-# Explicitly set Tesseract's path to the correct location (adjust path if needed)
-pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'  # Path for Linux (Render)
 
 # Predefined key skills
 skills_list = [
