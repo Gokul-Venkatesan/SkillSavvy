@@ -2,7 +2,7 @@ services:
   - type: web
     name: SkillSavvy
     env: docker
-    dockerfilePath: Dockerfile
+    dockerfilePath: ./api/Dockerfile
     buildCommand: ""  # Optional, usually not needed if Dockerfile handles everything
     startCommand: ""  # Optional, Docker CMD will be used if left empty
     plan: free
