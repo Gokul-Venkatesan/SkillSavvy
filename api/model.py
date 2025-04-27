@@ -32,6 +32,9 @@ from rapidfuzz import fuzz # fast string matching library for fuzzy matching and
 
 import json
 
+# Specify the path to the Tesseract binary
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
 
