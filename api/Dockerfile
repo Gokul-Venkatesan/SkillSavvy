@@ -1,21 +1,22 @@
 FROM python:3.10-slim
 
-# Install Tesseract and dependencies
-RUN apt-get update && \
-    apt-get install -y tesseract-ocr && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN tesseract --version
-
 # Set working directory to the api folder
 WORKDIR /app
 
-# Copy only the api folder contents
-COPY api/ .
+# Install Tesseract and dependencies
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Python packages
-RUN pip install --no-cache-dir -r requirements.txt
+RUN tesseract --version
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirem
+
+# Copy only the api folder contents
+COPY . .
 
 # Expose port (optional, needed if using something like Flask or FastAPI)
 EXPOSE 8000

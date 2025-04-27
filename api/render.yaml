@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: SkillSavvy                  # The name of your service
-    env: docker                       # This tells Render to use Docker to deploy
-    dockerfilePath: ./Dockerfile      # Path to your Dockerfile
-    buildCommand: "docker build -t skillsavvy-image ."  # Build the Docker image
-    startCommand: "docker run -p 8000:8000 skillsavvy-image"  # Run the Docker container
-    plan: free                        # The plan you are using (e.g., free, paid)
-    autoDeploy: true                  # Automatically deploy on push to Git
-    branch: master                    # The Git branch to deploy from (e.g., master or main)
+    name: SkillSavvy
+    env: docker
+    dockerfilePath: ./api/Dockerfile
+    buildCommand: ""  # Optional, usually not needed if Dockerfile handles everything
+    startCommand: ""  # Optional, Docker CMD will be used if left empty
+    plan: free
+    autoDeploy: true
+    branch: master
     envVars:
-      - key: API_URL                  # The environment variable key that holds the API URL
-        value: "https://skillsavvy.onrender.com"  # The value for your API URL, or any appropriate URL
+      - key: API_URL
+        value: "https://skillsavvy.onrender.com"
