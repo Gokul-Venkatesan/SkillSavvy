@@ -67,6 +67,13 @@ export class AppComponent {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
+
+    if (!file) {
+      // ✅ User cleared file input
+      this.resumeFile = null;
+      return;
+    }
+
     const maxSizeMB = 2;
 
     if (file && file.size > maxSizeMB * 1024 * 1024) {
