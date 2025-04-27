@@ -2,12 +2,10 @@ services:
   - type: web
     name: SkillSavvy
     env: docker
-    dockerfilePath: ./api/Dockerfile
-    buildCommand: ""  # Optional, usually not needed if Dockerfile handles everything
-    startCommand: ""  # Optional, Docker CMD will be used if left empty
+    dockerfilePath: ./api/Dockerfile  # Path to Dockerfile inside /api folder
+    buildCommand: |
+      cd api && pip install --no-cache-dir -r requirements.txt  # Change directory to /api
+    startCommand: ""  # Docker will use CMD from Dockerfile
     plan: free
     autoDeploy: true
     branch: master
-    envVars:
-      - key: API_URL
-        value: "https://skillsavvy.onrender.com"
