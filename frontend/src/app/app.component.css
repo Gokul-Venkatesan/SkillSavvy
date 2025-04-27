@@ -19,6 +19,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 h1 {
   font-size: 3.125rem;
   color: var(--gray-900);
@@ -138,49 +142,50 @@ main {
   }
 
 @media screen and (max-width: 650px) {
-  .content {
-    flex-direction: column;
-    width: max-content;
-  }
+    .content {
+      flex-direction: column;
+      width: 100%;
+    }
 
-  .divider {
-    height: 1px;
-    width: 100%;
-    background: var(--red-to-pink-to-purple-horizontal-gradient);
-    margin-block: 1.5rem;
-    display: none;
-  }
 
-  .main {
-    flex-direction: column;
-    align-items: center;
-  }
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+      display: none;
+    }
 
-  .left-side {
-    order: 1;
-    width: 100% !important;
-  }
+    .main {
+      flex-direction: column;
+      align-items: center;
+    }
 
-  .right-side {
-    order: 2;
-    width: 100% !important;
-  }
+    .left-side {
+      order: 1;
+      width: 100% !important;
+    }
 
-  .pill {
-    font-size: 0.85rem;
-    padding-inline: 0.6rem;
-    padding-block: 0.3rem;
-  }
+    .right-side {
+      order: 2;
+      width: 100% !important;
+    }
 
-  textarea,
-  input[type="number"],
-  input[type="file"] {
-    width: 100%;
-    box-sizing: border-box;
-  }
+    .pill {
+      font-size: 0.85rem;
+      padding-inline: 0.6rem;
+      padding-block: 0.3rem;
+    }
 
-  button.pill {
-    width: 100%;
-    text-align: center;
+    textarea,
+    input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button.pill {
+      width: 100%;
+      text-align: center;
+    }
   }
-}
