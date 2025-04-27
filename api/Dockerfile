@@ -4,6 +4,16 @@ FROM python:3.9-slim
 # Install Tesseract and system dependencies
 RUN apt-get update && apt-get install -y tesseract-ocr
 
+# Install system dependencies for building Python packages (GCC, build-essential, etc.)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    make \
+    libblas-dev \
+    liblapack-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory
 WORKDIR /app
 
