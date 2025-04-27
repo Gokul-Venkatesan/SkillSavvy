@@ -13,6 +13,7 @@ spacy # NLP processing
 
 # ✅ Optical Character Recognition (OCR) & Document Parsing
 pytesseract # OCR using Tesseract
+Pillow
 pdfplumber # to extract text from PDFs
 python-docx # to read .docx files
 
