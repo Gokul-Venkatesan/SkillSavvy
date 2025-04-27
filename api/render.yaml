@@ -2,7 +2,7 @@ services:
   - type: web
     name: SkillSavvy
     env: docker
-    dockerfilePath: ./api/Dockerfile  # Path to the Dockerfile inside the /api folder
+    dockerfilePath: Dockerfile  # Path to the Dockerfile inside the /api folder
     buildCommand: "true"  # No-op placeholder, letting Docker handle everything
     startCommand: ""  # Docker will use CMD from Dockerfile
     plan: free
