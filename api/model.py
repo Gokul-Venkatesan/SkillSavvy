@@ -35,6 +35,12 @@ import json
 # Specify the path to the Tesseract binary
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
+try:
+    tesseract_version = pytesseract.get_tesseract_version()
+    print(f"Tesseract Version: {tesseract_version}")
+except Exception as e:
+    print(f"Error: Tesseract is not installed or not accessible. {str(e)}")
+    
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
 
