@@ -2,6 +2,7 @@
 
 export const environment = {
   production: false,
-  //apiUrl: 'https://localhost:8000'
-  apiUrl: 'https://skillsavvy-1.onrender.com'
+  apiUrl: 'https://localhost:8000'
+  //apiUrl: process.env.DEV_URL || 'https://localhost:8000'
+  //apiUrl: 'https://skillsavvy.onrender.com'
 };
