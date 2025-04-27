@@ -2,7 +2,7 @@ services:
   - type: web
     name: SkillSavvy                  # The name of your service
     env: docker                       # This tells Render to use Docker to deploy
-    dockerfilePath: Docker      # Path to your Dockerfile
+    dockerfilePath: Dockerfile      # Path to your Dockerfile
     buildCommand: "docker build -t skillsavvy-image ."  # Build the Docker image
     startCommand: "docker run -p 8000:8000 skillsavvy-image"  # Run the Docker container
     plan: free                        # The plan you are using (e.g., free, paid)
