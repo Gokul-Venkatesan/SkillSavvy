@@ -1,25 +1,33 @@
-FROM python:3.10-slim
+# Use Debian-based image that supports apt
+FROM python:3.10-bullseye
 
-# Set working directory to the api folder
+# Set working directory
 WORKDIR /app
 
 # Install Tesseract and dependencies
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    libtesseract-dev \
+    libleptonica-dev \
+    poppler-utils \
+    imagemagick \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN tesseract --version
+# Print tesseract path and version (debugging)
+RUN echo "Tesseract path: $(which tesseract)" && tesseract --version
 
-# Copy requirements and install dependencies
+# Copy requirements and install Python packages
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirem
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy only the api folder contents
+# Optional: download spaCy model if used
+RUN python -m spacy download en_core_web_sm
+
+# Copy all your FastAPI app files into the container
 COPY . .
 
-# Expose port (optional, needed if using something like Flask or FastAPI)
+# Expose the port FastAPI will run on
 EXPOSE 8000
 
-# Start the app
+# Launch FastAPI app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

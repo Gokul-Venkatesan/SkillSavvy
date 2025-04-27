@@ -33,7 +33,7 @@ from rapidfuzz import fuzz # fast string matching library for fuzzy matching and
 import json
 
 import shutil
-print("Tesseract path:", shutil.which("tesseract"))
+print("✅ Tesseract path (should NOT be None):", shutil.which("tesseract"))
 
 # Specify the path to the Tesseract binary
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
