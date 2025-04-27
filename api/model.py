@@ -44,8 +44,8 @@ except Exception as e:
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
 
-# Provide the tesseract executable location explicitly
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# Explicitly set Tesseract's path to the correct location (adjust path if needed)
+pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'  # Path for Linux (Render)
 
 # Predefined key skills
 skills_list = [
