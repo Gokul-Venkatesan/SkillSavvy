@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y tesseract-ocr
 # Set the working directory
 WORKDIR /app
 
-# Copy Python dependencies first and install them
-# COPY requirements.txt
+# Copy the requirements.txt file to the working directory
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
