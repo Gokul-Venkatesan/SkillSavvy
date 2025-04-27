@@ -13,21 +13,15 @@ RUN apt-get update && apt-get install -y \
     libleptonica-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# DEBUG: Check if tesseract is installed and where it is
-RUN echo "Tesseract path: $(which tesseract)" && tesseract --version
-
 # Copy Python dependencies first and install them
-COPY requirements.txt .
+COPY ./api/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Optional: Install spaCy model
 RUN python -m spacy download en_core_web_sm
 
 # Copy app code
-COPY . .
-
-# Add a Python debug step (force tesseract path check inside container)
-RUN python -c "import shutil; print('🧪 Tesseract path (inside container):', shutil.which('tesseract'))"
+COPY ./api /app
 
 # Expose FastAPI port
 EXPOSE 8000
