@@ -1,5 +1,6 @@
 /* Gokul, 21-Apr-2025. Split CSS and HTML */
 
+/* General Styles for Host and Font */
 :host {
   --bright-blue: oklch(51.01% 0.274 263.83);
   --electric-violet: oklch(53.18% 0.28 296.97);
@@ -10,8 +11,8 @@
   --gray-900: oklch(19.37% 0.006 300.98);
   --gray-700: oklch(36.98% 0.014 302.71);
   --gray-400: oklch(70.9% 0.015 304.04);
-  --red-to-pink-to-purple-vertical-gradient: linear-gradient( 180deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100% );
-  --red-to-pink-to-purple-horizontal-gradient: linear-gradient( 90deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100% );
+  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
+  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
   --pill-accent: var(--bright-blue);
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   box-sizing: border-box;
@@ -23,6 +24,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Main Header Styles */
 h1 {
   font-size: 3.125rem;
   color: var(--gray-900);
@@ -33,6 +35,7 @@ h1 {
   font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+/* Paragraph Styles */
 p {
   margin: 0;
   color: var(--gray-700);
@@ -49,18 +52,15 @@ main {
   position: relative;
 }
 
-.angular-logo {
-  max-width: 9.2rem;
-}
-
+/* Content Styling */
 .content {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   max-width: 700px;
   margin-bottom: 3rem;
+  gap: 1.5rem;
 }
-
   .content h1 {
     margin-top: 1.75rem;
   }
@@ -83,6 +83,7 @@ main {
   gap: 1.25rem;
 }
 
+/* Pill Styling */
 .pill {
   display: flex;
   align-items: center;
@@ -107,85 +108,200 @@ main {
     background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
   }
 
-.pill-group .pill:nth-child(6n + 1) {
-  --pill-accent: var(--bright-blue);
+.result-panel {
+  background-color: #e9f7ea; /* Light pastel green shade */
+  border: 1px solid #c4e1c1; /* Soft green border for separation */
+  padding: 2rem;
+  border-radius: 10px;
+  color: var(--gray-900); /* Dark text for readability */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Adds depth with a subtle shadow */
 }
 
-.pill-group .pill:nth-child(6n + 2) {
-  --pill-accent: var(--french-violet);
+
+  .desktop-overview {
+  display: block;
+  }
+
+  .mobile-overview {
+  display: none;
+  }
+
+  .upload-note {
+  display: inline;
+  }
+
+/* Highlight Tip Section */
+.highlight-tip {
+  background-color: #28a745; /* Green */
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  margin: 1rem 0;
+  line-height: 1.4;
+  font-weight: 500;
 }
 
-.pill-group .pill:nth-child(6n + 3),
-.pill-group .pill:nth-child(6n + 4),
-.pill-group .pill:nth-child(6n + 5) {
-  --pill-accent: var(--hot-red);
-}
-
-.pill-group svg {
-  margin-inline-start: 0.25rem;
-}
-
-.social-links {
-  display: flex;
+/* Analyze Button */
+.analyze-btn {
+  background-color: #28a745; /* Vibrant green */
+  color: white; /* Light text for contrast */
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  display: inline-flex;
   align-items: center;
-  gap: 0.73rem;
-  margin-top: 1.5rem;
+  justify-content: center;
 }
 
-  .social-links path {
-    transition: fill 0.3s ease;
-    fill: var(--gray-400);
+  .analyze-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: scale(1.03);
   }
 
-  .social-links a:hover svg path {
-    fill: var(--gray-900);
+  .analyze-btn:focus {
+    outline: 2px solid #1e7e34;
+    outline-offset: 2px;
   }
+
+/* Shared overview styles */
+.overview-content {
+  color: darkblue; /* Dark blue text */
+  font-size: 1rem;
+  line-height: 1.6; /* Spacing for readability */
+  margin-bottom: 1.5rem;
+}
+
+/* Styles for mobile and desktop versions */
+.desktop-overview, .mobile-overview {
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Red text for warnings and notes */
+.note-warning {
+  color: red;
+}
+
+/* Dark blue text for security and instructions */
+.security-info, .instructions-info {
+  color: darkblue;
+}
+
+/* Desktop-specific styles */
+.desktop-overview {
+  display: block;
+}
+
+/* Shared styles for the Privacy Note */
+.privacy-note {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Red text for the Privacy Note label and deleted data */
+.privacy-note-red {
+  color: red;
+}
+
+/* Dark blue text for regular content */
+.privacy-note-blue {
+  color: darkblue;
+}
+
+.title-header {
+  background-color: #28a745;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
 
 @media screen and (max-width: 650px) {
-    .content {
-      flex-direction: column;
-      width: 100%;
-    }
+  .content {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
 
 
-    .divider {
-      height: 1px;
-      width: 100%;
-      background: var(--red-to-pink-to-purple-horizontal-gradient);
-      margin-block: 1.5rem;
-      display: none;
-    }
+  .divider {
+    height: 1px;
+    width: 100%;
+    background: var(--red-to-pink-to-purple-horizontal-gradient);
+    margin-block: 1.5rem;
+    display: none;
+  }
 
-    .main {
-      flex-direction: column;
-      align-items: center;
-    }
 
-    .left-side {
-      order: 1;
-      width: 100% !important;
-    }
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .right-side {
-      order: 2;
-      width: 100% !important;
-    }
+  .left-side {
+    order: 1;
+    width: 100% !important;
+  }
 
-    .pill {
-      font-size: 0.85rem;
-      padding-inline: 0.6rem;
-      padding-block: 0.3rem;
-    }
+  .right-side {
+    order: 2;
+    width: 100% !important;
+  }
 
-    textarea,
-    input[type="number"],
-    input[type="file"] {
-      width: 100%;
-      box-sizing: border-box;
-    }
+  .pill {
+    font-size: 0.5rem;
+    padding-inline: 0.6rem;
+    padding-block: 0.3rem;
+    max-width: fit-content;
+  }
+
+  textarea,
+  input[type="number"],
+  input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+  }
 
     button.pill {
       width: 100%;
       text-align: center;
     }
+
+  .desktop-overview {
+    display: none;
+    }
+
+  .mobile-overview {
+    display: block;
+    font-size: 0.875rem; /* optional: smaller text */
+    }
+
+  .upload-note {
+    display: block; /* Forces a new line on mobile */
+    font-size: 0.75rem; /* Optional: reduce size */
+    }
+
+  .highlight-tip {
+    font-size: 0.5rem;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .mobile-overview {
+    font-size: 0.875rem;
+    padding: 1rem;
+  }
+
+  .desktop-overview {
+    display: none;
+  }
+
+  .mobile-overview span {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
   }

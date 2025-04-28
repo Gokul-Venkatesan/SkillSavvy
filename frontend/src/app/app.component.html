@@ -15,46 +15,55 @@
 -->
 <link rel="stylesheet" href="app.component.css">
 
-<div>
-  <h3 style="text-align: center;background-color: orange"><font color="DarkBlue">{{ title }}</font></h3>
-  <p style="font-size: medium">
-    <font color="darkblue">
-      <strong>Overview : </strong>
-      This application evaluates how well your skills align with a specific job description by calculating a relevance score. It uses advanced <b>Natural Language Processing (NLP)</b> and <b>Optical Character Recognition (OCR)</b> techniques to extract information from resumes in various formats.
-      Additionally, it scans your resume and provides <b>detailed feedback</b> on the length of your profile relative to your experience, as well as your use of action verbs and key nouns.
-      The tool provides real-time job matching with fuzzy skill matching, helping you fine-tune your resume for better alignment with job requirements, all while ensuring a seamless user experience across devices with responsive web design (<b>RWD</b>).
+<h3 class="title-header">{{ title }}</h3>
+
+<div class="overview-container">
+  <div class="desktop-overview">
+    <p class="overview-content">
+      <strong>Overview:</strong>
+      This application evaluates how well your skills align with a specific job description by calculating a relevance score. It uses advanced <b>Natural Language Processing (NLP)</b> and <b>Optical Character Recognition (OCR)</b> techniques to extract information from resumes in various formats. Additionally, it scans your resume and provides <b>detailed feedback</b> on the length of your profile relative to your experience, as well as your use of action verbs and key nouns. The tool provides real-time job matching with fuzzy skill matching, helping you fine-tune your resume for better alignment with job requirements, all while ensuring a seamless user experience across devices with responsive web design (<b>RWD</b>).
       <br /><br />
-    </font><font color="red">
-      ⚠️ <b>Note: OCR is only applied to images and works best with high-quality, clear images (Good DPI).</b>
-    </font><br />
-    <font color="darkblue">
-      🔒 <b>Security:</b> Basic security measures are in place, including SSL, file size restrictions (max 2MB), Rate limit to API and UUID-based file paths to enhance privacy and security.
-    </font><br />
-    <font color="darkblue">
-      <strong>📋 Instructions : </strong>
-      Upload your resume, add custom skills or job description, and click <b>Analyze Resume</b>".
-    </font>
-  </p>
+      <span class="note-warning">⚠️ <b>Note: OCR is only applied to images and works best with high-quality, clear images (Good DPI).</b></span><br />
+      <span class="security-info">🔒 <b>Security:</b> Basic security measures are in place, including SSL, file size restrictions (max 2MB), Rate limit to API, and UUID-based file paths to enhance privacy and security.</span><br />
+      <span class="instructions-info"><strong>📋 Instructions:</strong> Upload your resume, add custom skills or job description, and click <b>Analyze Resume</b>.</span>
+    </p>
+  </div>
+
+  <!-- Mobile version -->
+  <div class="mobile-overview">
+    <span class="overview-content">
+      <b>Overview:</b> This app checks how well your skills match a job by analyzing your resume with advanced AI (NLP & OCR). It scores relevance, gives feedback on resume length, wording, and key terms. You’ll also get real-time job matching with smart skill comparison.
+    </span>
+    <span class="note-warning">⚠️ Note: OCR works best on clear, high-quality images.</span>
+    <span class="security-info"><b>🔒 Security:</b> Files are limited to 2MB, SSL is used, and uploads are secured with UUIDs and rate limiting.</span>
+    <span class="instructions-info"><b>📋 Instructions:</b> Upload your resume, add skills or job details, then tap <b>Analyze Resume</b>.</span>
+  </div>
 </div>
+
+
 <hr />
 <main class="main">
   <div class="content">
     <div class="left-side">
 
-      <button (click)="analyzeResume()" class="pill" style="font-size: large; background-color: orange"><font color="DarkBlue">Analyze Resume</font></button>
+      <!--<button (click)="analyzeResume()" class="pill" style="font-size: large; background-color: orange"><font color="DarkBlue">Analyze Resume</font></button>
+      -->
+      <p class="upload-info">
+        <b><span class="upload-label"><font color="red">*</font> Upload File</span></b>
+        <span class="upload-note"> (Supported Formats - txt, docx, pdf, jpg, png); Max 2MB</span>
+      </p>
 
-      <p class="pill"><strong><font color="red">*</font> Upload File (</strong> <font size="2">Supported Formats - txt, docx, pdf, jpg, png ); max 2MB size</font></p>
-      <input class="left-side" type="file" (change)="onFileSelected($event)" required />
+      <input aria-label="Upload Resume" class="left-side" type="file" (change)="onFileSelected($event)" required />
       <br />
 
-      <p class="pill">
+      <p>
         <strong>Years of Experience </strong>&nbsp;&nbsp;&nbsp;
         <input [(ngModel)]="experienceYears" type="number" min="1" max="75"
                (input)="onExperienceInput($event)"
                style="width: 50px;" required />
       </p>
 
-      <p class="pill"><strong>Job Description </strong> </p>
+      <p><strong>Job Description </strong> </p>
       <textarea [(ngModel)]="jobDescription" placeholder="Looking for a candidate with skills in Python, Machine Learning, AI, NLP and project management."
                 rows="3" cols="50" maxlength="1000"></textarea>
       <p [ngStyle]="{color: (1000 - (jobDescription.length || 0)) < 50 ? 'red' : 'gray',
@@ -62,14 +71,12 @@
         {{ 1000 - (jobDescription.length || 0) }} characters left
       </p>
 
-      <p>
-        <font style="font-size: small; background-color: green;" color="white">
-          You may also add key Technical and Soft Skills for more accurate matching
-          if not mentioned in the job description.
-        </font>
+      <p class="highlight-tip">
+        You may also add key <strong>Technical</strong> and <strong>Soft Skills</strong> for more accurate matching
+        if not mentioned in the job description.
       </p>
 
-      <p class="pill"><strong>Technical Skills </strong> </p>
+      <p><strong>Technical Skills </strong> </p>
       <textarea [(ngModel)]="skillsList" placeholder="Python, Machine Learning, Artificial Intelligence, Angular, AWS, Git, NLP"
                 rows="3" cols="50" maxlength="1000">
        </textarea>
@@ -78,7 +85,7 @@
         {{ 1000 - (skillsList.length || 0) }} characters left
       </p>
 
-      <p class="pill"><strong>Soft Skills </strong> </p>
+      <p><strong>Soft Skills </strong> </p>
       <textarea [(ngModel)]="softSkills" placeholder="Teamwork, Communication, Leadership"
                 rows="2" cols="50" maxlength="1000">
        </textarea>
@@ -87,13 +94,13 @@
         {{ 1000 - (softSkills.length || 0) }} characters left
       </p><br />
 
-      <button (click)="analyzeResume()" class="pill" style="font-size: large; background-color: orange"><font color="DarkBlue">Analyze Resume</font></button>
+      <button (click)="analyzeResume()" class="analyze-btn" aria-label="Analyze Resume">
+        Analyze Resume
+      </button>
 
     </div>
 
-    <div class="divider" role="separator" aria-label="Divider"></div>
-
-  </div>
+    <div class="divider"></div>
 
   <div *ngIf="result; else noResult" class="right-side" style="width: 400px;">
     <h3 class="pill" style="font-size: large; background-color: orange">
@@ -101,7 +108,7 @@
     </h3>
 
     <!-- ✅ Image quality section -->
-    <div *ngIf="result.image_quality">
+    <div *ngIf="result.image_quality" class="result-panel">
       <p [ngClass]="{
       'text-success': result.image_quality === 'good',
       'text-danger': result.image_quality === 'poor'
@@ -121,7 +128,7 @@
     </div>
 
     <!-- ✅ Only show analysis if quality is not 'poor' -->
-    <div *ngIf="result.image_quality !== 'poor'">
+    <div *ngIf="result.image_quality !== 'poor'" class="result-panel">
       <p style="color: darkred;"><strong>Emails:</strong> {{ result.emails?.join(', ') }}</p>
       <p style="color: darkred;"><strong>Phone Numbers:</strong> {{ result.phone_numbers?.join(', ') }}</p>
       <p style="color: darkred;"><strong>Technical :</strong> {{ result.tech_skills?.join(', ') }}</p>
@@ -141,11 +148,11 @@
       </p>-->
     </div>
 
-    <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;">
+    <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
       <p style="color: darkred;"><strong>Resume analysis skipped due to poor image quality.</strong></p>
     </div>
 
-    <div *ngIf="result.feedback?.length  && result.image_quality !== 'poor'">
+    <div *ngIf="result.feedback?.length  && result.image_quality !== 'poor'" class="result-panel">
 
       <br /><p style="color: darkblue; background-color: bisque"><strong>📝 Resume Feedback</strong></p>
       <ul>
@@ -154,6 +161,8 @@
     </div>
 
   </div>
+</div>
+
 
   <ng-template #noResult>
     <div *ngIf="isLoading" style="text-align: center; margin-top: 20px;" class="result-panel">
@@ -165,11 +174,12 @@
   </ng-template>
 </main>
 
-  <p><b>
-  <font color="red">🔒 Privacy Note:</font>
-  <font color="darkblue">
-  Your resume is never stored. All processing is done in-memory, and any temporary data
-  used during analysis is automatically </font>
-  <font color="red">deleted immediately </font>
-  <font color="darkblue"> after processing is complete. </font>
-  </b></p>
+<br />
+<p class="privacy-note">
+  <span class="privacy-note-red">🔒 Privacy Note:</span>
+  <span class="privacy-note-blue">
+    Your resume is never stored. All processing is done in-memory, and any temporary data used during analysis is automatically
+  </span>
+  <span class="privacy-note-red">deleted immediately</span>
+  <span class="privacy-note-blue"> after processing is complete.</span>
+</p>
