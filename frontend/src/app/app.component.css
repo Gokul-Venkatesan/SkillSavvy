@@ -266,6 +266,10 @@ main {
   font-style: italic;
 }
 
+.file-name {
+  margin-left: 10px;
+}
+
 @media screen and (max-width: 650px) {
   .content {
     flex-direction: column;

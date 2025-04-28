@@ -54,7 +54,7 @@
     <label for="file-upload" class="custom-file-upload">
       Upload File
     </label>
-    <span>{{ selectedFileName }}</span>
+    <span class="file-name">{{ selectedFileName }}</span>
     <input id="file-upload" type="file" aria-label="Upload Resume"
            (change)="onFileSelected($event)" required />
     <br /><br />
