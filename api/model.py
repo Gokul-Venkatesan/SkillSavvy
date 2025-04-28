@@ -50,14 +50,14 @@ tesseract_path = os.getenv("TESSERACT_PATH")
 #print(f"ENV is: {ENV}")
 
 #if ENV == "production":
-#pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
     
 #tesseract_path = os.getenv("TESSERACT_PATH")
 
-if tesseract_path:
-    pytesseract.pytesseract.tesseract_cmd = tesseract_path
-else:
-    print("Tesseract path not set. Please check your environment configuration.")
+#if tesseract_path:
+#    pytesseract.pytesseract.tesseract_cmd = tesseract_path
+#else:
+#    print("Tesseract path not set. Please check your environment configuration.")
    
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
