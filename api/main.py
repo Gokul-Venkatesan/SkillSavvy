@@ -37,8 +37,19 @@ load_dotenv()
 #Initiate FastAPI
 app = FastAPI()
 
-ENV = os.getenv("ENVIRONMENT")
+# Determine which environment to load
+ENV = os.getenv("ENVIRONMENT", "development")  # Default to 'development' if not set
+env_file = "dev.env" if ENV == "development" else "prod.env"
+
+#print(f"Loading .env file: {env_file}")  # Debug print
+load_dotenv(dotenv_path=env_file)
+
+#ENV = os.getenv("ENVIRONMENT")
 API_URL = os.getenv("API_URL")
+
+#print(f"ENVIRONMENT is: {ENV}")
+#print(f"API_URL is: {API_URL}")
+#print(f"Current working directory: {os.getcwd()}")
 
 if ENV == "production":
         app.add_middleware(

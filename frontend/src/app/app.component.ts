@@ -42,6 +42,7 @@ export class AppComponent {
   result: any = null;
   experienceYears: number = 5;
   isLoading: boolean = false;
+  selectedFileName: string = 'No file selected';
    
   constructor(private http: HttpClient) { }
 
@@ -67,6 +68,12 @@ export class AppComponent {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
+
+    if (file) {
+      this.selectedFileName = file.name;
+    } else {
+      this.selectedFileName = 'No file selected';
+    }
 
     if (!file) {
       // ✅ User cleared file input

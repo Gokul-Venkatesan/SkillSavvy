@@ -32,136 +32,135 @@
   <!-- Mobile version -->
   <div class="mobile-overview">
     <span class="overview-content">
-      <b>Overview:</b> This app checks how well your skills match a job by analyzing your resume with advanced AI (NLP & OCR). It scores relevance, gives feedback on resume length, wording, and key terms. You’ll also get real-time job matching with smart skill comparison.
+      <b>Overview:</b> This app checks how well your skills match a job by analyzing your resume with <b>advanced AI (NLP & OCR)</b>. It scores relevance, gives feedback on resume length, wording, and key terms. You’ll also get real-time job matching with smart skill comparison.
     </span>
     <span class="note-warning">⚠️ Note: OCR works best on clear, high-quality images.</span>
     <span class="security-info"><b>🔒 Security:</b> Files are limited to 2MB, SSL is used, and uploads are secured with UUIDs and rate limiting.</span>
     <span class="instructions-info"><b>📋 Instructions:</b> Upload your resume, add skills or job details, then tap <b>Analyze Resume</b>.</span>
   </div>
 </div>
-
-
 <hr />
 <main class="main">
-  <div class="content">
-    <div class="left-side">
+  <div>
 
-      <!--<button (click)="analyzeResume()" class="pill" style="font-size: large; background-color: orange"><font color="DarkBlue">Analyze Resume</font></button>
-      -->
-      <p class="upload-info">
-        <b><span class="upload-label"><font color="red">*</font> Upload File</span></b>
-        <span class="upload-note"> (Supported Formats - txt, docx, pdf, jpg, png); Max 2MB</span>
-      </p>
+    <p class="upload-info">
+      <b><span class="upload-label"><font color="red">*</font> Upload File</span></b>
+      <span class="upload-note"> (Supported Formats - txt, docx, pdf, jpg, png); Max 2MB</span>
+    </p>
 
-      <input aria-label="Upload Resume" class="left-side" type="file" (change)="onFileSelected($event)" required />
-      <br />
+    <!--<input aria-label="Upload Resume" type="file" (change)="onFileSelected($event)" required />
+  <br /><br />-->
 
-      <p>
-        <strong>Years of Experience </strong>&nbsp;&nbsp;&nbsp;
-        <input [(ngModel)]="experienceYears" type="number" min="1" max="75"
-               (input)="onExperienceInput($event)"
-               style="width: 50px;" required />
-      </p>
+    <label for="file-upload" class="custom-file-upload">
+      Upload File
+    </label>
+    <span>{{ selectedFileName }}</span>
+    <input id="file-upload" type="file" aria-label="Upload Resume"
+           (change)="onFileSelected($event)" required />
+    <br /><br />
 
-      <p><strong>Job Description </strong> </p>
-      <textarea [(ngModel)]="jobDescription" placeholder="Looking for a candidate with skills in Python, Machine Learning, AI, NLP and project management."
-                rows="3" cols="50" maxlength="1000"></textarea>
-      <p [ngStyle]="{color: (1000 - (jobDescription.length || 0)) < 50 ? 'red' : 'gray',
+    <p>
+      <strong>Years of Experience </strong>&nbsp;&nbsp;&nbsp;
+      <input [(ngModel)]="experienceYears" type="number" min="1" max="75"
+             (input)="onExperienceInput($event)"
+             style="width: 50px;" required />
+    </p><br />
+
+    <p><strong>Job Description </strong> </p>
+    <textarea [(ngModel)]="jobDescription" placeholder="Looking for a candidate with skills in Python, Machine Learning, AI, NLP and project management."
+              rows="3" cols="50" maxlength="1000"></textarea>
+    <p [ngStyle]="{color: (1000 - (jobDescription.length || 0)) < 50 ? 'red' : 'gray',
       'font-size': 'small', 'margin-top': '1px', 'margin-bottom': '0'}">
-        {{ 1000 - (jobDescription.length || 0) }} characters left
-      </p>
+      {{ 1000 - (jobDescription.length || 0) }} characters left
+    </p>
 
-      <p class="highlight-tip">
-        You may also add key <strong>Technical</strong> and <strong>Soft Skills</strong> for more accurate matching
-        if not mentioned in the job description.
-      </p>
+    <p class="highlight-tip">
+      You may also add key <strong>Technical</strong> and <strong>Soft Skills</strong> for more accurate matching
+      if not mentioned in the job description.
+    </p>
 
-      <p><strong>Technical Skills </strong> </p>
-      <textarea [(ngModel)]="skillsList" placeholder="Python, Machine Learning, Artificial Intelligence, Angular, AWS, Git, NLP"
-                rows="3" cols="50" maxlength="1000">
+    <p><strong>Technical Skills </strong> </p>
+    <textarea [(ngModel)]="skillsList" placeholder="Python, Machine Learning, Artificial Intelligence, Angular, AWS, Git, NLP"
+              rows="3" cols="50" maxlength="1000">
        </textarea>
-      <p [ngStyle]="{color: (1000 - (skillsList.length || 0)) < 50 ? 'red' : 'gray',
+    <p [ngStyle]="{color: (1000 - (skillsList.length || 0)) < 50 ? 'red' : 'gray',
       'font-size': 'small', 'margin-top': '1px', 'margin-bottom': '0'}">
-        {{ 1000 - (skillsList.length || 0) }} characters left
-      </p>
+      {{ 1000 - (skillsList.length || 0) }} characters left
+    </p><br />
 
-      <p><strong>Soft Skills </strong> </p>
-      <textarea [(ngModel)]="softSkills" placeholder="Teamwork, Communication, Leadership"
-                rows="2" cols="50" maxlength="1000">
+    <p><strong>Soft Skills </strong> </p>
+    <textarea [(ngModel)]="softSkills" placeholder="Teamwork, Communication, Leadership"
+              rows="2" cols="50" maxlength="1000">
        </textarea>
-      <p [ngStyle]="{color: (1000 - (softSkills.length || 0)) < 50 ? 'red' : 'gray',
+    <p [ngStyle]="{color: (1000 - (softSkills.length || 0)) < 50 ? 'red' : 'gray',
       'font-size': 'small', 'margin-top': '1px', 'margin-bottom': '0'}">
-        {{ 1000 - (softSkills.length || 0) }} characters left
-      </p><br />
+      {{ 1000 - (softSkills.length || 0) }} characters left
+    </p><br />
 
-      <button (click)="analyzeResume()" class="analyze-btn" aria-label="Analyze Resume">
-        Analyze Resume
-      </button>
+    <button (click)="analyzeResume()" class="analyze-btn" aria-label="Analyze Resume">
+      Analyze Resume
+    </button>
 
-    </div>
+  </div>
 
-    <div class="divider"></div>
+  <div class="divider"></div>
 
-    <div *ngIf="result; else noResult" class="right-side">
-      <h3 class="analysis-result">
-        <strong><font color="white">Analysis Result</font></strong>
-      </h3>
+  <div *ngIf="result; else noResult">
+    <h3 class="analysis-result">
+      <strong><font color="white">Analysis Result</font></strong>
+    </h3>
 
-      <!-- ✅ Image quality section -->
-      <div *ngIf="result.image_quality" class="result-panel">
-        <p [ngClass]="{
+    <!-- ✅ Image quality section -->
+    <div *ngIf="result.image_quality" class="result-panel">
+      <p [ngClass]="{
       'text-success': result.image_quality === 'good',
       'text-danger': result.image_quality === 'poor'
-    }" style="color: darkred;">
-          <strong>Image Quality: </strong> {{ result.image_quality | titlecase }}
-        </p>
+    }">
+        <strong>Image Quality: </strong> {{ result.image_quality | titlecase }}
+      </p>
 
-        <p *ngIf="result.ocr_confidence !== undefined" style="color: darkred;">
-          <strong>OCR Confidence: </strong>{{ result.ocr_confidence }}%
-        </p>
 
-        <p *ngIf="result.ocr_message" class="text-warning" style="color: darkred;">
-          {{ result.ocr_message }}
-        </p>
+      <p *ngIf="result.ocr_confidence !== undefined">
+        <strong>OCR Confidence: </strong>{{ result.ocr_confidence }}%
+      </p>
 
-        <br />
-      </div>
+      <p *ngIf="result.ocr_message" class="text-warning">
+        {{ result.ocr_message }}
+      </p>
 
-      <!-- ✅ Only show analysis if quality is not 'poor' -->
-      <div *ngIf="result.image_quality !== 'poor'" class="result-panel">
-        <p style="color: darkred;"><strong>Emails:</strong> {{ result.emails?.join(', ') }}</p>
-        <p style="color: darkred;"><strong>Phone Numbers:</strong> {{ result.phone_numbers?.join(', ') }}</p>
-        <p style="color: darkred;"><strong>Technical :</strong> {{ result.tech_skills?.join(', ') }}</p>
-        <p style="color: darkred;"><strong>Soft :</strong> {{ result.soft_skills?.join(', ') }}</p><br />
-        <p [ngStyle]="{'background-color' : result.match_score >= 60 ? 'lightgreen' : 'red',
-          'color': result.match_score >= 60 ? 'darkred' : 'white',
-          'padding': '8px',
-          'border-radius': '5px'
-          }">
-          <strong>Match Score: {{ result.match_score }} </strong>
-        </p>
-        <p style="color: darkred;"><strong>Matched Skills:</strong> {{ result.matched_skills?.join(', ') }}</p>
-        <p style="color: darkred;"><strong>Missing Skills:</strong> {{ result.missing_skills?.join(', ') }}</p>
-        <!--<p style="color: darkred;">
-      <strong>Total Required Skills:</strong> {{ result.total_required }} |
-      <strong>Total Matched Skills:</strong> {{ result.total_matched }}
-    </p>-->
-      </div>
-
-      <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
-        <p style="color: darkred;"><strong>Resume analysis skipped due to poor image quality.</strong></p>
-      </div>
-
-      <div *ngIf="result.feedback?.length  && result.image_quality !== 'poor'" class="result-panel">
-
-        <br /><p style="color: darkblue; background-color: bisque"><strong>📝 Resume Feedback</strong></p>
-        <ul>
-          <li *ngFor="let fb of result.feedback" style="color: darkblue">{{ fb }}</li>
-        </ul>
-      </div>
-
+      <br />
     </div>
-</div>
+
+    <!-- ✅ Only show analysis if quality is not 'poor' -->
+    <div *ngIf="result.image_quality !== 'poor'" class="result-panel">
+      <p><strong>Emails:</strong> {{ result.emails?.join(', ') }}</p>
+      <p><strong>Phone Numbers:</strong> {{ result.phone_numbers?.join(', ') }}</p>
+      <p><strong>Technical :</strong> {{ result.tech_skills?.join(', ') }}</p>
+      <p><strong>Soft :</strong> {{ result.soft_skills?.join(', ') }}</p><br />
+      <p [ngStyle]="{
+         'background-color' : result.match_score >= 60 ? 'lightgreen' : 'red',
+        'color': result.match_score >= 60 ? 'darkred' : 'white',
+        'padding': '8px',
+        'border-radius': '5px',
+        'width': 'fit-content'
+        }">
+        <strong>Match Score: {{ result.match_score }} </strong>
+      </p>
+      <p><strong>Matched Skills:</strong> {{ result.matched_skills?.join(', ') }}</p>
+      <p><strong>Missing Skills:</strong> {{ result.missing_skills?.join(', ') }}</p>
+    </div>
+
+    <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
+      <p><strong>Resume analysis skipped due to poor image quality.</strong></p>
+    </div>
+
+    <div *ngIf="result.feedback?.length && result.image_quality !== 'poor'" class="result-panel">
+      <p class="feedback-header"><strong>📝 Resume Feedback</strong></p>
+      <ul>
+        <li *ngFor="let fb of result.feedback">{{ fb }}</li>
+      </ul>
+    </div>
+  </div>
 
 
   <ng-template #noResult>
@@ -183,3 +182,4 @@
   <span class="privacy-note-red">deleted immediately</span>
   <span class="privacy-note-blue"> after processing is complete.</span>
 </p>
+

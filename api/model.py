@@ -27,13 +27,37 @@ import phonenumbers #  for parsing, formatting, and validating international pho
 import spacy # for natural language processing
 from spacy.matcher import PhraseMatcher # for spotting key skills or terms in resumes or job descriptions.
 
+from dotenv import load_dotenv
 import pytesseract # OCR (Optical Character Recognition) tool
 from rapidfuzz import fuzz # fast string matching library for fuzzy matching and comparison
 
 import json
 
 # Specify the path to the Tesseract binary
-pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+load_dotenv()
+# Determine which environment to load
+ENV = os.getenv("ENVIRONMENT", "development")  # Default to 'development' if not set
+env_file = "dev.env" if ENV == "development" else "prod.env"
+
+#print(f"Loading .env file: {env_file}")  # Debug print
+load_dotenv(dotenv_path=env_file)
+
+#ENV = os.getenv("ENVIRONMENT")
+#pytesseract.pytesseract.tesseract_cmd="C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+
+tesseract_path = os.getenv("TESSERACT_PATH")
+#print(f"Tesseract path is: {tesseract_path}")
+#print(f"ENV is: {ENV}")
+
+#if ENV == "production":
+#pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+    
+#tesseract_path = os.getenv("TESSERACT_PATH")
+
+if tesseract_path:
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
+else:
+    print("Tesseract path not set. Please check your environment configuration.")
    
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")

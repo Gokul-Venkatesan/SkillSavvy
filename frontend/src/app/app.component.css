@@ -52,17 +52,11 @@ main {
   position: relative;
 }
 
-/*.left-side {
-  width: 600px;
-}
-
-.right-side {
-  width: 400px;
-}*/
 
 /* Content Styling */
 .content {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   width: 100%;
   max-width: 700px;
@@ -83,48 +77,19 @@ main {
   margin-inline: 0.5rem;
 }
 
-.pill-group {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-}
-
-/* Pill Styling */
-.pill {
-  display: flex;
-  align-items: center;
-  --pill-accent: var(--bright-blue);
-  background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
-  color: var(--pill-accent);
-  padding-inline: 0.75rem;
-  padding-block: 0.375rem;
-  border-radius: 2.75rem;
-  border: 0;
-  transition: background 0.3s ease;
-  font-family: var(--inter-font);
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.4rem;
-  letter-spacing: -0.00875rem;
-  text-decoration: none;
-}
-
-  .pill:hover {
-    background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
-  }
-
 .result-panel {
   background-color: #e9f7ea; /* Light pastel green shade */
   border: 1px solid #c4e1c1; /* Soft green border for separation */
   padding: 2rem;
   border-radius: 10px;
-  color: var(--gray-900); /* Dark text for readability */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Adds depth with a subtle shadow */
+  margin: 0.5rem 0;
+  color: var(--gray-700); /* Default color for paragraphs */
 }
 
+  .result-panel p strong {
+    color: var(--gray-900); /* Strong text color */
+  }
 
   .desktop-overview {
   display: block;
@@ -230,15 +195,75 @@ main {
 }
 
 .analysis-result {
-  font-size: large;
   background-color: #28a745; /* Vibrant green */
-  color: white; /* Light text for contrast */
   padding: 10px 20px; /* Add some padding for better visual appearance */
   border-radius: 5px; /* Rounded corners */
   text-align: center; /* Center the text */
   display: inline-block; /* Make the header behave like an inline block */
   width: auto; /* Automatically adjust the width */
   box-sizing: border-box; /* Ensure padding is included in width */
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--gray-900); /* Use the dark color for the title */
+  margin-bottom: 1rem;
+}
+
+/* General font styles for consistency */
+.analysis-result,
+.result-panel p,
+.result-panel ul {
+  font-family: "Inter", sans-serif;
+  color: var(--gray-700); /* Default color for text */
+  font-size: 1rem; /* Default font size */
+  line-height: 1.6;
+}
+
+.feedback-header {
+  background-color: #28a745;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+  width: fit-content;
+}
+
+.text-success {
+  color: var(--green); /* Example for a success color */
+}
+
+.text-danger {
+  color: var(--red); /* Example for a danger color */
+}
+
+/* Handling colors for match score based on the value */
+.result.match_score {
+  font-size: 1rem;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+#file-upload {
+  display: none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+  .custom-file-upload:hover {
+    background-color: #45a049;
+  }
+
+#file-name {
+  margin-left: 10px;
+  font-style: italic;
 }
 
 @media screen and (max-width: 650px) {
@@ -261,34 +286,12 @@ main {
     align-items: center;
   }
 
-  .left-side {
-    order: 1;
-    width: 100% !important;
-  }
-
-  .right-side {
-    order: 2;
-    width: 100% !important;
-  }
-
-  .pill {
-    font-size: 0.5rem;
-    padding-inline: 0.6rem;
-    padding-block: 0.3rem;
-    max-width: fit-content;
-  }
-
   textarea,
   input[type="number"],
   input[type="file"] {
     width: 100%;
     box-sizing: border-box;
   }
-
-    button.pill {
-      width: 100%;
-      text-align: center;
-    }
 
   .desktop-overview {
     display: none;
@@ -324,7 +327,17 @@ main {
   }
 
   .analysis-result {
-    font-size: medium; /* Adjust font size for screens smaller than 650px */
+    font-size: 1.25rem; /* Adjust font size for screens smaller than 650px */
     padding: 8px 16px; /* Adjust padding for mobile */
   }
+
+  .result-panel p {
+    font-size: 0.875rem; /* Adjust font size for smaller screens */
+  }
+
+  .feedback-header {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
   }
