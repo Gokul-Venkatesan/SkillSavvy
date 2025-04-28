@@ -46,7 +46,7 @@ main {
   min-height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 1rem;
   box-sizing: inherit;
   position: relative;
@@ -54,21 +54,21 @@ main {
 
 .left-side {
   width: 600px;
-  /* Add other styles if necessary */
+  margin: 0; /* Remove any unnecessary margins */
 }
 
 .right-side {
   width: 400px;
-  /* Add other styles if necessary */
+  margin: 0; /* Remove any unnecessary margins */
 }
 
 /* Content Styling */
 .content {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
-  max-width: 700px;
-  margin-bottom: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
   gap: 1.5rem;
 }
   .content h1 {
