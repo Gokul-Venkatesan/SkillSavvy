@@ -102,65 +102,65 @@
 
     <div class="divider"></div>
 
-  <div *ngIf="result; else noResult" class="right-side" style="width: 400px;">
-    <h3 class="pill" style="font-size: large; background-color: orange">
-      <strong><font color="DarkBlue">Analysis Result</font></strong>
-    </h3>
+    <div *ngIf="result; else noResult" class="right-side">
+      <h3 class="analysis-result">
+        <strong><font color="white">Analysis Result</font></strong>
+      </h3>
 
-    <!-- ✅ Image quality section -->
-    <div *ngIf="result.image_quality" class="result-panel">
-      <p [ngClass]="{
+      <!-- ✅ Image quality section -->
+      <div *ngIf="result.image_quality" class="result-panel">
+        <p [ngClass]="{
       'text-success': result.image_quality === 'good',
       'text-danger': result.image_quality === 'poor'
     }" style="color: darkred;">
-        <strong>Image Quality: </strong> {{ result.image_quality | titlecase }}
-      </p>
+          <strong>Image Quality: </strong> {{ result.image_quality | titlecase }}
+        </p>
 
-      <p *ngIf="result.ocr_confidence !== undefined" style="color: darkred;">
-        <strong>OCR Confidence: </strong>{{ result.ocr_confidence }}%
-      </p>
+        <p *ngIf="result.ocr_confidence !== undefined" style="color: darkred;">
+          <strong>OCR Confidence: </strong>{{ result.ocr_confidence }}%
+        </p>
 
-      <p *ngIf="result.ocr_message" class="text-warning" style="color: darkred;">
-        {{ result.ocr_message }}
-      </p>
+        <p *ngIf="result.ocr_message" class="text-warning" style="color: darkred;">
+          {{ result.ocr_message }}
+        </p>
 
-      <br />
+        <br />
+      </div>
+
+      <!-- ✅ Only show analysis if quality is not 'poor' -->
+      <div *ngIf="result.image_quality !== 'poor'" class="result-panel">
+        <p style="color: darkred;"><strong>Emails:</strong> {{ result.emails?.join(', ') }}</p>
+        <p style="color: darkred;"><strong>Phone Numbers:</strong> {{ result.phone_numbers?.join(', ') }}</p>
+        <p style="color: darkred;"><strong>Technical :</strong> {{ result.tech_skills?.join(', ') }}</p>
+        <p style="color: darkred;"><strong>Soft :</strong> {{ result.soft_skills?.join(', ') }}</p><br />
+        <p [ngStyle]="{'background-color' : result.match_score >= 60 ? 'lightgreen' : 'red',
+          'color': result.match_score >= 60 ? 'darkred' : 'white',
+          'padding': '8px',
+          'border-radius': '5px'
+          }">
+          <strong>Match Score: {{ result.match_score }} </strong>
+        </p>
+        <p style="color: darkred;"><strong>Matched Skills:</strong> {{ result.matched_skills?.join(', ') }}</p>
+        <p style="color: darkred;"><strong>Missing Skills:</strong> {{ result.missing_skills?.join(', ') }}</p>
+        <!--<p style="color: darkred;">
+      <strong>Total Required Skills:</strong> {{ result.total_required }} |
+      <strong>Total Matched Skills:</strong> {{ result.total_matched }}
+    </p>-->
+      </div>
+
+      <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
+        <p style="color: darkred;"><strong>Resume analysis skipped due to poor image quality.</strong></p>
+      </div>
+
+      <div *ngIf="result.feedback?.length  && result.image_quality !== 'poor'" class="result-panel">
+
+        <br /><p style="color: darkblue; background-color: bisque"><strong>📝 Resume Feedback</strong></p>
+        <ul>
+          <li *ngFor="let fb of result.feedback" style="color: darkblue">{{ fb }}</li>
+        </ul>
+      </div>
+
     </div>
-
-    <!-- ✅ Only show analysis if quality is not 'poor' -->
-    <div *ngIf="result.image_quality !== 'poor'" class="result-panel">
-      <p style="color: darkred;"><strong>Emails:</strong> {{ result.emails?.join(', ') }}</p>
-      <p style="color: darkred;"><strong>Phone Numbers:</strong> {{ result.phone_numbers?.join(', ') }}</p>
-      <p style="color: darkred;"><strong>Technical :</strong> {{ result.tech_skills?.join(', ') }}</p>
-      <p style="color: darkred;"><strong>Soft :</strong> {{ result.soft_skills?.join(', ') }}</p><br />
-      <p [ngStyle]="{'background-color' : result.match_score >= 60 ? 'lightgreen' : 'red',
-        'color': result.match_score >= 60 ? 'darkred' : 'white',
-        'padding': '8px',
-        'border-radius': '5px'
-        }">
-        <strong>Match Score: {{ result.match_score }} </strong>
-      </p>
-      <p style="color: darkred;"><strong>Matched Skills:</strong> {{ result.matched_skills?.join(', ') }}</p>
-      <p style="color: darkred;"><strong>Missing Skills:</strong> {{ result.missing_skills?.join(', ') }}</p>
-      <!--<p style="color: darkred;">
-        <strong>Total Required Skills:</strong> {{ result.total_required }} |
-        <strong>Total Matched Skills:</strong> {{ result.total_matched }}
-      </p>-->
-    </div>
-
-    <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
-      <p style="color: darkred;"><strong>Resume analysis skipped due to poor image quality.</strong></p>
-    </div>
-
-    <div *ngIf="result.feedback?.length  && result.image_quality !== 'poor'" class="result-panel">
-
-      <br /><p style="color: darkblue; background-color: bisque"><strong>📝 Resume Feedback</strong></p>
-      <ul>
-        <li *ngFor="let fb of result.feedback" style="color: darkblue">{{ fb }}</li>
-      </ul>
-    </div>
-
-  </div>
 </div>
 
 

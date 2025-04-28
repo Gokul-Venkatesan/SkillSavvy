@@ -52,6 +52,16 @@ main {
   position: relative;
 }
 
+.left-side {
+  width: 600px;
+  /* Add other styles if necessary */
+}
+
+.right-side {
+  width: 400px;
+  /* Add other styles if necessary */
+}
+
 /* Content Styling */
 .content {
   display: flex;
@@ -221,13 +231,24 @@ main {
   text-align: center;
 }
 
+.analysis-result {
+  font-size: large;
+  background-color: #28a745; /* Vibrant green */
+  color: white; /* Light text for contrast */
+  padding: 10px 20px; /* Add some padding for better visual appearance */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center the text */
+  display: inline-block; /* Make the header behave like an inline block */
+  width: auto; /* Automatically adjust the width */
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
 @media screen and (max-width: 650px) {
   .content {
     flex-direction: column;
     width: 100%;
     gap: 1rem;
   }
-
 
   .divider {
     height: 1px;
@@ -236,7 +257,6 @@ main {
     margin-block: 1.5rem;
     display: none;
   }
-
 
   .main {
     flex-direction: column;
@@ -303,5 +323,10 @@ main {
   .mobile-overview span {
     display: block;
     margin-bottom: 0.75rem;
+  }
+
+  .analysis-result {
+    font-size: medium; /* Adjust font size for screens smaller than 650px */
+    padding: 8px 16px; /* Adjust padding for mobile */
   }
   }
