@@ -52,15 +52,13 @@ main {
   position: relative;
 }
 
-.left-side {
+/*.left-side {
   width: 600px;
-  /* Add other styles if necessary */
 }
 
 .right-side {
   width: 400px;
-  /* Add other styles if necessary */
-}
+}*/
 
 /* Content Styling */
 .content {
