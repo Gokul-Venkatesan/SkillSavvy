@@ -165,7 +165,10 @@
 
   <ng-template #noResult>
     <div *ngIf="isLoading" style="text-align: center; margin-top: 20px;" class="result-panel">
-      <p style="color: darkblue;"><strong>⏳ Analyzing your resume, please wait...</strong></p>
+      <p style="color: darkblue;">
+        <strong>⏳ Analyzing your resume, please wait...</strong>
+        Note: Due to limited server resources, processing may take slightly longer.
+      </p>
     </div>
     <div *ngIf="!isLoading" style="color: gray; font-style: italic;" class="result-panel">
       No results to display yet. Please upload your resume and click Analyze.
