@@ -220,7 +220,7 @@ main {
 
 .feedback-header {
   background-color: #28a745;
-  color: white;
+  color: white !important;
   padding: 0.75rem;
   border-radius: 0.5rem;
   font-weight: 600;
