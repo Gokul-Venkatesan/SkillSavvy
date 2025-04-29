@@ -218,6 +218,12 @@ main {
   line-height: 1.6;
 }
 
+.result-panelhead p {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem; /* Default font size */
+  line-height: 1.6;
+}
+
 .feedback-header {
   background-color: #28a745;
   color: white;
@@ -226,10 +232,6 @@ main {
   font-weight: 600;
   font-size: 1.25rem;
   width: fit-content;
-}
-
-.result-panel p.feedback-header {
-  color: white;
 }
 
 .text-success {

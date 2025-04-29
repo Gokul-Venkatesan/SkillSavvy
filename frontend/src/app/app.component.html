@@ -154,7 +154,7 @@
       <p><strong>Resume analysis skipped due to poor image quality.</strong></p>
     </div>
 
-    <div *ngIf="result.feedback?.length && result.image_quality !== 'poor'" class="result-panel">
+    <div *ngIf="result.feedback?.length && result.image_quality !== 'poor'" class="result-panelhead">
       <p class="feedback-header"><strong>📝 Resume Feedback</strong></p>
       <ul>
         <li *ngFor="let fb of result.feedback">{{ fb }}</li>
