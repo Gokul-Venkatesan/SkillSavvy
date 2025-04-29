@@ -218,6 +218,15 @@ main {
   line-height: 1.6;
 }
 
+.result-panelhead {
+  background-color: #e9f7ea; /* Light pastel green shade */
+  border: 1px solid #c4e1c1; /* Soft green border for separation */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Adds depth with a subtle shadow */
+  margin: 0.5rem 0;
+}
+
 .result-panelhead p {
   font-family: "Inter", sans-serif;
   font-size: 1rem; /* Default font size */
