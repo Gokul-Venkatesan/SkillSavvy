@@ -18,100 +18,143 @@
 <h3 class="title-header">{{ title }}</h3>
 
 <div class="overview-container">
-  <div class="desktop-overview">
-    <p class="overview-content">
-      <strong>Overview:</strong>
-      This application evaluates how well your skills align with a specific job description by calculating a relevance score. It uses advanced <b>Natural Language Processing (NLP)</b> and <b>Optical Character Recognition (OCR)</b> techniques to extract information from resumes in various formats. Additionally, it scans your resume and provides <b>detailed feedback</b> on the length of your profile relative to your experience, as well as your use of action verbs and key nouns. The tool provides real-time job matching with fuzzy skill matching, helping you fine-tune your resume for better alignment with job requirements, all while ensuring a seamless user experience across devices with responsive web design (<b>RWD</b>).
-      <br /><br />
-      <span class="note-warning">⚠️ <b>Note: OCR is only applied to images and works best with high-quality, clear images (Good DPI).</b></span><br />
-      <span class="security-info">🔒 <b>Security:</b> Basic security measures are in place, including SSL, file size restrictions (max 2MB), Rate limit to API, and UUID-based file paths to enhance privacy and security.</span><br />
-      <span class="instructions-info"><strong>📋 Instructions:</strong> Upload your resume, add custom skills or job description, and click <b>Analyze Resume</b>.</span>
-    </p>
-  </div>
+    <div class="desktop-overview">
+        <p class="overview-content">
+            <strong>Overview:</strong>
+            This application evaluates how well your skills align with a specific job description by calculating a relevance score. It uses advanced <b>Natural Language Processing (NLP)</b> and <b>Optical Character Recognition (OCR)</b> techniques to extract information from resumes in various formats. Additionally, it scans your resume and provides <b>detailed feedback</b> on the length of your profile relative to your experience, as well as your use of action verbs and key nouns. The tool provides real-time job matching with fuzzy skill matching, helping you fine-tune your resume for better alignment with job requirements, all while ensuring a seamless user experience across devices with responsive web design (<b>RWD</b>).
+            <br /><br />
+            <span class="note-warning">⚠️ <b>Note: OCR is only applied to images and works best with high-quality, clear images (Good DPI).</b></span><br />
+            <span class="security-info">🔒 <b>Security:</b> Basic security measures are in place, including SSL, file size restrictions (max 2MB), Rate limit to API, and UUID-based file paths to enhance privacy and security.</span><br />
+            <span class="instructions-info"><strong>📋 Instructions:</strong> Upload your resume, add custom skills or job description, and click <b>Analyze Resume</b>.</span>
+        </p>
+    </div>
 
-  <!-- Mobile version -->
-  <div class="mobile-overview">
-    <span class="overview-content">
-      <b>Overview:</b> This app checks how well your skills match a job by analyzing your resume with <b>advanced AI (NLP & OCR)</b>. It scores relevance, gives feedback on resume length, wording, and key terms. You’ll also get real-time job matching with smart skill comparison.
-    </span>
-    <span class="note-warning">⚠️ Note: OCR works best on clear, high-quality images.</span>
-    <span class="security-info"><b>🔒 Security:</b> Files are limited to 2MB, SSL is used, and uploads are secured with UUIDs and rate limiting.</span>
-    <span class="instructions-info"><b>📋 Instructions:</b> Upload your resume, add skills or job details, then tap <b>Analyze Resume</b>.</span>
-  </div>
+    <!-- Mobile version -->
+    <div class="mobile-overview">
+        <span class="overview-content">
+            <b>Overview:</b> This app checks how well your skills match a job by analyzing your resume with <b>advanced AI (NLP & OCR)</b>. It scores relevance, gives feedback on resume length, wording, and key terms. You’ll also get real-time job matching with smart skill comparison.
+        </span>
+        <span class="note-warning">⚠️ Note: OCR works best on clear, high-quality images.</span>
+        <span class="security-info"><b>🔒 Security:</b> Files are limited to 2MB, SSL is used, and uploads are secured with UUIDs and rate limiting.</span>
+        <span class="instructions-info"><b>📋 Instructions:</b> Upload your resume, add skills or job details, then tap <b>Analyze Resume</b>.</span>
+    </div>
 </div>
 <hr />
 <main class="main">
-  <div>
 
-    <p class="upload-info">
-      <b><span class="upload-label"><font color="red">*</font> Upload File</span></b>
-      <span class="upload-note"> (Supported Formats - txt, docx, pdf, jpg, png); Max 2MB</span>
-    </p>
+    <div>
 
-    <!--<input aria-label="Upload Resume" type="file" (change)="onFileSelected($event)" required />
-  <br /><br />-->
+        <p class="upload-info">
+            <b><span class="upload-label"><font color="red">*</font> Upload your Resume</span></b>
+            <span class="upload-note"> (Only txt, docx, pdf, jpg, png); Max 2MB</span>
+        </p>
 
-    <label for="file-upload" class="custom-file-upload">
-      Upload File
-    </label>
-    <span class="file-name">{{ selectedFileName }}</span>
-    <input id="file-upload" type="file" aria-label="Upload Resume"
-           (change)="onFileSelected($event)" required />
-    <br /><br />
+        <!--<input aria-label="Upload Resume" type="file" (change)="onFileSelected($event)" required />
+        <br /><br />-->
+        <!--<label for="file-upload" class="custom-file-upload">
+          Upload File
+        </label>
+        <span class="file-name">{{ selectedFileName }}</span>
+        <input id="file-upload" type="file" aria-label="Upload Resume"
+               (change)="onFileSelected($event)" required />
+        <br /><br />-->
+        <!-- 🔁 New Multi-File Upload Section Start-->
+        <!--<p class="upload-info">
+          <b><span class="upload-label">Upload Multiple Resumes</span></b>
+          <span class="upload-note">(Max 2MB per file; PDF, DOCX, TXT, JPG, PNG)</span>
+        </p>-->
 
-    <p>
-      <strong>Years of Experience </strong>&nbsp;&nbsp;&nbsp;
-      <input [(ngModel)]="experienceYears" type="number" min="1" max="75"
-             (input)="onExperienceInput($event)"
-             style="width: 50px;" required />
-    </p><br />
+        <div class="upload-drop-area desktop-overview"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
 
-    <p><strong>Job Description </strong> </p>
-    <textarea [(ngModel)]="jobDescription" placeholder="Looking for a candidate with skills in Python, Machine Learning, AI, NLP and project management."
-              rows="3" cols="50" maxlength="1000"></textarea>
-    <p [ngStyle]="{color: (1000 - (jobDescription.length || 0)) < 50 ? 'red' : 'gray',
+
+            <label for="multi-upload" class="custom-file-upload">
+                Choose Files to Upload
+            </label>
+            <span class="file-name">
+                {{ selectedMultiFileNames.length ? selectedMultiFileNames.join(', ') : 'No File Selected' }}
+            </span>
+            <input id="multi-upload" type="file" multiple required
+                   (change)="onMultipleFilesSelected($event)" />
+        </div>
+
+        <div class="mobile-overview">
+
+            <label for="multi-upload" class="custom-file-upload">
+                Tap to Upload Files
+            </label>
+            <span class="file-name">
+                {{ selectedMultiFileNames.length ? selectedMultiFileNames.join(', ') : 'No File Selected' }}
+            </span>
+            <input id="multi-upload" type="file" multiple required
+                   (change)="onMultipleFilesSelected($event)" />
+        </div>
+
+        <br /><br />
+
+        <!-- 🔁 New Multi-File Upload Section End-->
+
+        <p>
+            <strong>Years of Experience </strong>&nbsp;&nbsp;&nbsp;
+            <input [(ngModel)]="experienceYears" type="number" min="1" max="75"
+                   (input)="onExperienceInput($event)"
+                   style="width: 50px;" required />
+        </p><br />
+
+        <p><strong>Job Description </strong> </p>
+        <textarea [(ngModel)]="jobDescription" placeholder="Looking for a candidate with skills in Python, Machine Learning, AI, NLP and project management."
+                  rows="3" cols="50" maxlength="1000"></textarea>
+        <p [ngStyle]="{color: (1000 - (jobDescription.length || 0)) < 50 ? 'red' : 'gray',
       'font-size': 'small', 'margin-top': '1px', 'margin-bottom': '0'}">
-      {{ 1000 - (jobDescription.length || 0) }} characters left
-    </p>
+            {{ 1000 - (jobDescription.length || 0) }} characters left
+        </p>
 
-    <p class="highlight-tip">
-      You may also add key <strong>Technical</strong> and <strong>Soft Skills</strong> for more accurate matching
-      if not mentioned in the job description.
-    </p>
+        <p class="highlight-tip">
+            You may also add key <strong>Technical</strong> and <strong>Soft Skills</strong> for more accurate matching
+            if not mentioned in the job description.
+        </p>
 
-    <p><strong>Technical Skills </strong> </p>
-    <textarea [(ngModel)]="skillsList" placeholder="Python, Machine Learning, Artificial Intelligence, Angular, AWS, Git, NLP"
-              rows="3" cols="50" maxlength="1000">
+        <p><strong>Technical Skills </strong> </p>
+        <textarea [(ngModel)]="skillsList" placeholder="Python, Machine Learning, Artificial Intelligence, Angular, AWS, Git, NLP"
+                  rows="3" cols="50" maxlength="1000">
        </textarea>
-    <p [ngStyle]="{color: (1000 - (skillsList.length || 0)) < 50 ? 'red' : 'gray',
+        <p [ngStyle]="{color: (1000 - (skillsList.length || 0)) < 50 ? 'red' : 'gray',
       'font-size': 'small', 'margin-top': '1px', 'margin-bottom': '0'}">
-      {{ 1000 - (skillsList.length || 0) }} characters left
-    </p><br />
+            {{ 1000 - (skillsList.length || 0) }} characters left
+        </p><br />
 
-    <p><strong>Soft Skills </strong> </p>
-    <textarea [(ngModel)]="softSkills" placeholder="Teamwork, Communication, Leadership"
-              rows="2" cols="50" maxlength="1000">
+        <p><strong>Soft Skills </strong> </p>
+        <textarea [(ngModel)]="softSkills" placeholder="Teamwork, Communication, Leadership"
+                  rows="2" cols="50" maxlength="1000">
        </textarea>
-    <p [ngStyle]="{color: (1000 - (softSkills.length || 0)) < 50 ? 'red' : 'gray',
+        <p [ngStyle]="{color: (1000 - (softSkills.length || 0)) < 50 ? 'red' : 'gray',
       'font-size': 'small', 'margin-top': '1px', 'margin-bottom': '0'}">
-      {{ 1000 - (softSkills.length || 0) }} characters left
-    </p><br />
+            {{ 1000 - (softSkills.length || 0) }} characters left
+        </p><br />
 
-    <button (click)="analyzeResume()" class="analyze-btn" aria-label="Analyze Resume">
-      Analyze Resume
-    </button>
+        <!--<button (click)="analyzeResume()" class="analyze-btn" aria-label="Analyze Resume">
+          Analyze Resume
+        </button>
+        <br /><br />-->
 
-  </div>
 
-  <div class="divider"></div>
+        <button (click)="analyzeMultipleResumes()" class="analyze-btn" aria-label="Analyze Multiple Resumes">
+            Analyze Multiple Resumes
+        </button>
 
-  <div *ngIf="result; else noResult">
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Single File Start -->
+    <!--<div *ngIf="result; else noResult">
     <h3 class="analysis-result">
       <strong><font color="white">Analysis Result</font></strong>
-    </h3>
-
+    </h3>-->
     <!-- ✅ Image quality section -->
-    <div *ngIf="result.image_quality" class="result-panel">
+    <!--<div *ngIf="result.image_quality" class="result-panel">
       <p [ngClass]="{
       'text-success': result.image_quality === 'good',
       'text-danger': result.image_quality === 'poor'
@@ -129,60 +172,290 @@
       </p>
 
       <br />
-    </div>
-
+    </div>-->
     <!-- ✅ Only show analysis if quality is not 'poor' -->
-    <div *ngIf="result.image_quality !== 'poor'" class="result-panel">
-      <p><strong>Emails:</strong> {{ result.emails?.join(', ') }}</p>
-      <p><strong>Phone Numbers:</strong> {{ result.phone_numbers?.join(', ') }}</p>
-      <p><strong>Technical :</strong> {{ result.tech_skills?.join(', ') }}</p>
-      <p><strong>Soft :</strong> {{ result.soft_skills?.join(', ') }}</p><br />
-      <p [ngStyle]="{
-         'background-color' : result.match_score >= 60 ? 'lightgreen' : 'red',
-        'color': result.match_score >= 60 ? 'darkred' : 'white',
-        'padding': '8px',
-        'border-radius': '5px',
-        'width': 'fit-content'
-        }">
-        <strong>Match Score: {{ result.match_score }} </strong>
-      </p>
-      <p><strong>Matched Skills:</strong> {{ result.matched_skills?.join(', ') }}</p>
-      <p><strong>Missing Skills:</strong> {{ result.missing_skills?.join(', ') }}</p>
+    <!--<div *ngIf="result.image_quality !== 'poor'" class="result-panel">
+        <p><strong>Emails:</strong> {{ result.emails?.join(', ') }}</p>
+        <p><strong>Phone Numbers:</strong> {{ result.phone_numbers?.join(', ') }}</p>
+        <p><strong>Technical :</strong> {{ result.tech_skills?.join(', ') }}</p>
+        <p><strong>Soft Skills :</strong> {{ result.soft_skills?.join(', ') }}</p><br />
+        <p [ngStyle]="{
+           'background-color' : result.match_score >= 60 ? 'lightgreen' : 'red',
+          'color': result.match_score >= 60 ? 'darkred' : 'white',
+          'padding': '8px',
+          'border-radius': '5px',
+          'width': 'fit-content'
+          }">
+          <strong>Match Score: {{ result.match_score }} </strong>
+        </p>
+        <p><strong>Matched Skills:</strong> {{ result.matched_skills?.join(', ') }}</p>
+        <p><strong>Missing Skills:</strong> {{ result.missing_skills?.join(', ') }}</p>
+      </div>
+
+      <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
+        <p><strong>Resume analysis skipped due to poor image quality.</strong></p>
+      </div>
+
+      <div *ngIf="result.feedback?.length && result.image_quality !== 'poor'" class="result-panelhead">
+        <p class="feedback-header"><strong>📝 Resume Feedback</strong></p>
+        <ul>
+          <li *ngFor="let fb of result.feedback">{{ fb }}</li>
+        </ul>
+      </div>
+    </div>-->
+    <!-- Single File End -->
+    <!-- Multifile Analysis Start-->
+
+<div *ngIf="multiResults && multiResults.length > 0; else nomultiResults" class="result-panel desktop-overview">
+    <h4 class="analysis-result">
+        <b><font color="white">Analysis Result of {{ multiResults.length }} {{ multiResults.length === 1 ? 'file' : 'files' }}</font></b>
+    </h4>
+    
+    <img src="exp-xl.png"
+         alt="Export to Excel"
+         title="Export to Excel"
+         (click)="exportExcel()"
+         style="cursor: pointer; width: 32px; height: 32px;" />
+
+    <div class="matrix-table-wrapper">
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th *ngFor="let res of multiResults; let i = index">{{ i + 1 }}. {{ res.filename }}</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Skill Section: Emails to Missing Skills -->
+                <tr *ngIf="true">
+                    <!-- Labels column -->
+                    <td data-label="Attribute"><b>Emails</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Emails'">
+                        <ng-container *ngIf="res.image_quality !== 'poor'; else skippedBlock">
+                            {{ res.emails?.length ? res.emails.join(', ') : '—' }}
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Attribute"><b>Phone Numbers</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Phone Numbers'">
+                        <ng-container *ngIf="res.image_quality !== 'poor'">
+                            {{ res.phone_numbers?.length ? res.phone_numbers.join(', ') : '—' }}
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Attribute"><b>Technical</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Technical'">
+                        <ng-container *ngIf="res.image_quality !== 'poor'">
+                            {{ res.tech_skills?.length ? res.tech_skills.join(', ') : '—' }}
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Attribute"><b>Soft Skills</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Soft Skills'">
+                        <ng-container *ngIf="res.image_quality !== 'poor'">
+                            {{ res.soft_skills?.length ? res.soft_skills.join(', ') : '—' }}
+                        </ng-container>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="Attribute">
+                        <p><b>Match Score</b></p>
+                    </td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Match Score'">
+                        <p *ngIf="res.match_score > 0"
+                           [ngClass]="res.match_score >= 60 ? 'match-good' : 'match-bad'">
+                            <b>{{ res.match_score }}%</b>
+                        </p>
+                        <p *ngIf="!res.match_score || res.match_score <= 0"></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="Attribute"><b>Matched Skills</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Matched Skills'">
+                        <ng-container *ngIf="res.image_quality !== 'poor'">
+                            {{ res.matched_skills?.length ? res.matched_skills.join(', ') : '—' }}
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Attribute"><b>Missing Skills</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Missing Skills'">
+                        <ng-container *ngIf="res.image_quality !== 'poor'">
+                            {{ res.missing_skills?.length ? res.missing_skills.join(', ') : '—' }}
+                        </ng-container>
+                    </td>
+                </tr>
+
+                <!-- One-time skipped block (same position as the skill rows) -->
+                <ng-template #skippedBlock>
+                    <span class="text-danger">Resume Analysis skipped due to poor image quality</span>
+                </ng-template>
+
+
+                <tr>
+                    <td data-label="Attribute"><b>Image Quality</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Image Quality'">
+                        <span [ngClass]="{
+                                'text-success': res.image_quality === 'good',
+                                'text-danger': res.image_quality === 'poor'
+                                }">
+                            {{ res.image_quality ? (res.image_quality | titlecase) : '—' }}
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="Attribute"><b>OCR Confidence</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'OCR Confidence'">
+                        <ng-container *ngIf="res.image_quality === 'poor' || res.image_quality === 'good' ">
+                            <p [ngClass]="{
+                               'success' : res.ocr_confidence >= 60,
+                                'danger': res.ocr_confidence < 60,
+                                'text-success': res.ocr_confidence >= 60,
+                                'text-danger': res.ocr_confidence < 60
+                                }">
+                                <b>{{ (res.ocr_confidence !== undefined && res.ocr_confidence !== null) ? res.ocr_confidence + '%' : '—' }}</b>
+                            </p>
+                        </ng-container>
+                        <ng-container *ngIf="res.image_quality === undefined || res.ocr_confidence === null">
+                            <span>—</span>
+                        </ng-container>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="Attribute"><b>OCR Message</b></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'OCR Message'">
+                        <span [ngClass]="{ 'text-danger': res.image_quality === 'poor' }">
+                            {{ res.ocr_message ? res.ocr_message : '—' }}
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="Attribute"><p>Resume Feedback</p></td>
+                    <td *ngFor="let res of multiResults" [attr.data-label]="'Resume Feedback'">
+                        <ng-container *ngIf="res.image_quality !== 'poor'; else skipped">
+                            <ul *ngIf="res.feedback?.length; else noFeedback">
+                                <li *ngFor="let fb of res.feedback">{{ fb }}</li>
+                            </ul>
+                            <ng-template #noFeedback>—</ng-template>
+                        </ng-container>
+                        <ng-template #skipped>
+                            <span [ngClass]="'text-danger'">Resume analysis skipped due to poor image quality.</span>
+                        </ng-template>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 
-    <div *ngIf="result.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
-      <p><strong>Resume analysis skipped due to poor image quality.</strong></p>
-    </div>
+</div>
 
-    <div *ngIf="result.feedback?.length && result.image_quality !== 'poor'" class="result-panelhead">
-      <p class="feedback-header"><strong>📝 Resume Feedback</strong></p>
-      <ul>
-        <li *ngFor="let fb of result.feedback">{{ fb }}</li>
-      </ul>
+    <!-- Multifile Analysis End-->
+
+    <!-- Multiple Analysis Mobile View Start -->
+
+<div class="mobile-overview">
+    <h3 class="analysis-result" *ngIf="multiResults && multiResults.length > 0">
+        <b><font color="white">Analysis Result of {{ multiResults.length }} {{ multiResults.length === 1 ? 'file' : 'files' }}</font></b>
+    </h3>
+    <img src="exp-xl.png"
+         alt="Export to Excel"
+         title="Export to Excel"
+         (click)="exportExcel()"
+         style="cursor: pointer; width: 32px; height: 32px;" />
+
+    <div *ngFor="let res of multiResults; let i = index" class="result-panel">
+        <h4 class="analysis-result-fn">
+            <font color="white">
+                <b>{{ i + 1 }}. {{ res.filename }}</b>
+            </font>
+        </h4>
+
+        <!-- ✅ Image quality section -->
+        <span *ngIf="res.image_quality" class="result-panel">
+            <p [ngClass]="{
+                    'text-success': res.image_quality === 'good',
+                    'text-danger': res.image_quality === 'poor'
+                }">
+                <b>Image Quality: </b> {{ res.image_quality | titlecase }}
+            </p>
+
+            <p [ngClass]="{
+               'success' : res.ocr_confidence >= 60,
+                'danger': res.ocr_confidence < 60,
+                'text-success': res.ocr_confidence >= 60,
+                'text-danger': res.ocr_confidence < 60
+                }">
+                <b>OCR Confidence: {{ res.ocr_confidence }} </b>
+            </p>
+
+            <p *ngIf="res.ocr_message" class="text-warning">
+                {{ res.ocr_message }}
+            </p>
+
+            <br />
+        </span>
+
+        <!-- ✅ Only show analysis if quality is not 'poor' -->
+        <p *ngIf="res.image_quality !== 'poor'" class="result-panel">
+        <p><b>Emails:</b> {{ res.emails?.join(', ') }}</p>
+        <p><b>Phone Numbers:</b> {{ res.phone_numbers?.join(', ') }}</p>
+        <p><b>Technical :</b> {{ res.tech_skills?.join(', ') }}</p>
+        <p><b>Soft Skills :</b> {{ res.soft_skills?.join(', ') }}</p><br />
+        <p [ngClass]="{
+           'success' : res.match_score >= 60,
+            'danger': res.match_score < 60
+            }">
+            <b>Match Score : {{ res.match_score }} </b>
+        </p>
+        <p><b>Matched Skills:</b> {{ res.matched_skills?.join(', ') }}</p>
+        <p><b>Missing Skills:</b> {{ res.missing_skills?.join(', ') }}</p>
+
+        <span *ngIf="res.image_quality === 'poor'" style="margin-top: 10px;" class="result-panel">
+            <p><b>Resume analysis skipped due to poor image quality.</b></p>
+        </span>
+
+        <span *ngIf="res.feedback?.length && res.image_quality !== 'poor'" class="result-panelhead">
+            <p class="feedback-header"><b><font color="white">📝 Resume Feedback</font></b></p>
+            <ul>
+                <li *ngFor="let fb of res.feedback">{{ fb }}</li>
+            </ul>
+        </span>
+
     </div>
-  </div>
+</div>
 
 
-  <ng-template #noResult>
-    <div *ngIf="isLoading" style="text-align: center; margin-top: 20px;" class="result-panel">
-      <p style="color: darkblue;">
-        <strong>⏳ Analyzing your resume, please wait...</strong>
-        Note: Due to limited server resources, processing may take slightly longer.
-      </p>
-    </div>
-    <div *ngIf="!isLoading" style="color: gray; font-style: italic;" class="result-panel">
-      No results to display yet. Please upload your resume and click Analyze.
-    </div>
-  </ng-template>
+    <!-- Multiple Analysis Mobile View End -->
+
+    <ng-template #nomultiResults>
+        <!-- #noResult -->
+        <div *ngIf="isLoading" style="text-align: center; margin-top: 20px;" class="result-panel">
+            <p style="color: darkblue;">
+                <strong>⏳ Analyzing your resume, please wait...</strong>
+                Note: Due to limited server resources, processing may take slightly longer.
+            </p>
+        </div>
+        <div *ngIf="!isLoading" style="color: gray; font-style: italic;" class="result-panel">
+            No results to display yet. Please upload your resume and click Analyze.
+        </div>
+    </ng-template>
 </main>
 
 <br />
 <p class="privacy-note">
-  <span class="privacy-note-red">🔒 Privacy Note:</span>
-  <span class="privacy-note-blue">
-    Your resume is never stored. All processing is done in-memory, and any temporary data used during analysis is automatically
-  </span>
-  <span class="privacy-note-red">deleted immediately</span>
-  <span class="privacy-note-blue"> after processing is complete.</span>
+    <span class="privacy-note-red">🔒 Privacy Note: </span>
+    <span class="privacy-note-blue"> Your resume is processed in-memory and</span>
+    <span class="privacy-note-red"> automatically deleted</span>
+    <span class="privacy-note-blue"> right after analysis — it's never stored.</span>
 </p>
 

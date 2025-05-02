@@ -224,6 +224,77 @@ async def analyze_resume(
         ocr_message=image_meta.get("message") if image_meta else None
     )
 
+# ---------- MULTI-FILE ANALYSIS ----------
+@app.post("/analyze-resumes")  # NEW
+@limiter.limit("5/minute")
+async def analyze_resumes(
+    request: Request,
+    resume_files: List[UploadFile] = File(...),  # NEW
+    job_description: Optional[str] = Form(None),
+    skills_list: Optional[str] = Form(None),
+    soft_skills: Optional[str] = Form(None),
+    years_of_experience: Optional[int] = Form(DEFAULT_EXPERIENCE_YEARS)
+):
+    job_description = job_description or DEFAULT_JOB_DESCRIPTION
+    skills_list = skills_list or DEFAULT_SKILLS_LIST
+    soft_skills = soft_skills or DEFAULT_SOFT_SKILLS
+
+    user_skills = skills_list.split(",") if skills_list else []
+    user_soft_skills = soft_skills.split(",") if soft_skills else []
+
+    if skills_list or soft_skills:
+        job_description += "\n\nAlso focus on these skills:\n"
+        if skills_list:
+            job_description += skills_list + "\n"
+        if soft_skills:
+            job_description += soft_skills
+
+    results = []  # NEW
+
+    for resume_file in resume_files:  # START MULTI-FILE
+        contents = await resume_file.read()
+        file_ext = os.path.splitext(resume_file.filename)[1]
+        unique_filename = f"{uuid.uuid4()}{file_ext}"
+        temp_dir = tempfile.gettempdir()
+        file_path = os.path.join(temp_dir, unique_filename)
+
+        with open(file_path, "wb") as f:
+            f.write(contents)
+
+        resume_text, image_meta = model.extract_resume_text(file_path)
+        os.remove(file_path)
+
+        emails, phones = model.extract_contact_info(resume_text)
+
+        tech_skills_found, soft_skills_found = model.extract_skills(
+            resume_text, job_desc=job_description,
+            custom_skills=user_skills, custom_soft_skills=user_soft_skills
+        )
+
+        result_data = model.compare_resume_to_job(
+            resume_text, job_description, years_of_experience,
+            custom_skills=user_skills, custom_soft_skills=user_soft_skills
+        )
+
+        results.append({  # NEW
+            "filename": resume_file.filename,
+            "emails": emails,
+            "phone_numbers": phones,
+            "tech_skills": tech_skills_found,
+            "soft_skills": soft_skills_found,
+            "match_score": result_data["score"],
+            "matched_skills": result_data["matched_skills"],
+            "missing_skills": result_data["missing_skills"],
+            "total_required": result_data["total_required"],
+            "total_matched": result_data["total_matched"],
+            "feedback": result_data["feedback"],
+            "image_quality": image_meta.get("quality") if image_meta else None,
+            "ocr_confidence": image_meta.get("confidence") if image_meta else None,
+            "ocr_message": image_meta.get("message") if image_meta else None
+        })  # END MULTI-FILE
+
+    return {"results": results}  # NEW
+
 """
 @app.get("/health")
 def health_check():

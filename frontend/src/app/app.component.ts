@@ -14,9 +14,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { ExportExcelService } from './export-excel.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +42,16 @@ export class AppComponent {
   experienceYears: number = 5;
   isLoading: boolean = false;
   selectedFileName: string = 'No file selected';
-   
-  constructor(private http: HttpClient) { }
+
+  //Multi File
+  multiResumeFiles: File[] = [];
+  multiResults: any[] = [];
+  selectedMultiFileNames: string[] = [];
+
+  constructor(
+    private http: HttpClient,
+    private exportService: ExportExcelService
+  ) { }
 
   onExperienceInput(event: any) {
     let value = event.target.value;
@@ -63,6 +70,43 @@ export class AppComponent {
       this.experienceYears = 75;
     } else {
       this.experienceYears = isNaN(num) ? 5 : num;
+    }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropArea = event.currentTarget as HTMLElement;
+    dropArea.classList.add('dragover');
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropArea = event.currentTarget as HTMLElement;
+    dropArea.classList.remove('dragover');
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const dropArea = event.currentTarget as HTMLElement;
+    dropArea.classList.remove('dragover');
+
+    if (event.dataTransfer?.files?.length) {
+      const fileInput = document.getElementById('multi-upload') as HTMLInputElement;
+      const dataTransfer = new DataTransfer();
+
+      Array.from(event.dataTransfer.files).forEach(file => {
+        dataTransfer.items.add(file);
+      });
+
+      fileInput.files = dataTransfer.files;
+
+      // Now trigger your existing file selection method
+      const fakeEvent = { target: fileInput } as any;
+      this.onMultipleFilesSelected(fakeEvent);
     }
   }
 
@@ -98,7 +142,61 @@ export class AppComponent {
       return;
     }
 
+    // Reset the multi-file list when a single file is selected
+    this.multiResumeFiles = [];
+    this.selectedMultiFileNames = [];
+
     this.resumeFile = file;
+  }
+
+  //Mutile File Handling
+  onMultipleFilesSelected(event: any) {
+    const files: FileList = event.target.files;
+
+    this.multiResumeFiles = [];
+    this.selectedMultiFileNames = [];
+
+    const maxSizeMB = 2;
+    const allowedExtensions = ['pdf', 'docx', 'txt', 'png', 'jpg', 'jpeg'];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+
+      if (file) {
+        this.selectedFileName = file.name;
+      } else {
+        this.selectedFileName = 'No file selected';
+      }
+
+      if (!file) {
+        // ✅ User cleared file input
+        this.resumeFile = null;
+        return;
+      }
+
+      if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
+        //alert(`❌ ${file.name} has an unsupported format.`);
+        alert(`❌ Sorry, the file format is unsupported. Please upload a file in one of these formats: PDF, DOCX, TXT, JPG or PNG`);
+        this.multiResumeFiles = [];
+        this.selectedMultiFileNames = [];
+        return;
+      }
+
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(`❌ One of your file is too large.The maximum file size allowed is ${maxSizeMB} MB per file. Please upload a smaller file.`);
+        this.multiResumeFiles = [];
+        this.selectedMultiFileNames = [];
+        return;
+      }
+
+      this.multiResumeFiles.push(file);
+      this.selectedMultiFileNames.push(file.name);
+
+      // Reset the single file selection when multiple files are chosen
+      this.resumeFile = null;
+      this.selectedFileName = 'No file selected';
+    }
   }
 
   analyzeResume() {
@@ -149,4 +247,79 @@ export class AppComponent {
     });
   }
 
+  //Mutile File Handling
+  analyzeMultipleResumes() {
+    this.multiResults = [];
+
+    if (this.multiResumeFiles.length === 0) {
+      alert('⚠️ Please upload a valid file. Ensure the file is in an acceptable format and meets the size requirements');
+      return;
+    }
+
+    const formData = new FormData();
+    this.multiResumeFiles.forEach(file => {
+      formData.append('resume_files', file, file.name);
+    });
+
+    if (this.jobDescription.length > 1000 ||
+      this.skillsList.length > 1000 ||
+      this.softSkills.length > 1000) {
+      alert('⚠️ Text inputs must be 1000 characters or less. Please reduce the length of your text.');
+      return;
+    }
+
+    if (this.experienceYears < 1 || this.experienceYears > 75) {
+      alert('⚠️ Please enter a valid experience between 1 and 75 years.');
+      return;
+    }
+
+    formData.append('job_description', this.jobDescription);
+    formData.append('skills_list', this.skillsList);
+    formData.append('soft_skills', this.softSkills);
+    formData.append('years_of_experience', this.experienceYears.toString());
+
+    this.isLoading = true;
+
+    this.http.post<any>(`${environment.apiUrl}/analyze-resumes`, formData).subscribe({
+      next: (response) => {
+        this.multiResults = response.results;
+        this.isLoading = false;
+        console.log('Multi analysis result:', this.multiResults);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Multi-resume analysis failed:', error);
+
+        if (error.status === 429) {
+          alert(error.error?.detail || 'You have exceeded the rate limit.Please try again later');
+        } else {
+          alert('Oops! Something went wrong. Please try again.');
+        }
+      }
+    });
+  }
+
+  exportExcel() {
+
+    const formattedData = this.multiResults.map((r, index) => ({
+      'S.No': index + 1,
+      'Resume File': r.filename,
+      Emails: r.emails?.join(', '),
+      Phones: r.phone_numbers?.join(', '),
+      'Tech Skills': r.tech_skills?.join(', '),
+      'Soft Skills': r.soft_skills?.join(', '),
+      'Match Score': r.match_score,
+      'Matched Skills': r.matched_skills?.join(', '),
+      'Missing Skills': r.missing_skills?.join(', '),
+      'Total Required': r.total_required,
+      'Total Matched': r.total_matched,
+      'Feedback': r.feedback?.join(', '),
+      'Image Quality': r.image_quality,
+      'OCR Confidence': r.ocr_confidence,
+      'OCR Message': r.ocr_message
+    }));
+
+    this.exportService.exportToExcel(formattedData, 'ResumeAnalysis');
+
+   }
 }

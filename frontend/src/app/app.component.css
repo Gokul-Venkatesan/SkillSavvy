@@ -1,5 +1,9 @@
 /* Gokul, 21-Apr-2025. Split CSS and HTML */
 
+html, body {
+  overflow: hidden;
+}
+
 /* General Styles for Host and Font */
 :host {
   --bright-blue: oklch(51.01% 0.274 263.83);
@@ -50,6 +54,7 @@ main {
   padding: 1rem;
   box-sizing: inherit;
   position: relative;
+  overflow-x: hidden;
 }
 
 
@@ -113,6 +118,7 @@ main {
   margin: 1rem 0;
   line-height: 1.4;
   font-weight: 500;
+  max-width: 20rem;
 }
 
 /* Analyze Button */
@@ -165,16 +171,12 @@ main {
   color: darkblue;
 }
 
-/* Desktop-specific styles */
-.desktop-overview {
-  display: block;
-}
-
 /* Shared styles for the Privacy Note */
 .privacy-note {
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 /* Red text for the Privacy Note label and deleted data */
@@ -208,12 +210,27 @@ main {
   margin-bottom: 1rem;
 }
 
+.analysis-result-fn {
+  background-color: #1c2c3b; /* Muted Navy	#1c2c3b or Charcoal	#343a40 */
+  padding: 10px 20px; /* Add some padding for better visual appearance */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center the text */
+  display: inline-block; /* Make the header behave like an inline block */
+  width: auto; /* Automatically adjust the width */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--gray-900); /* Use the dark color for the title */
+  margin-bottom: 1rem;
+}
+
 /* General font styles for consistency */
 .analysis-result,
+.analysis-result-fn,
 .result-panel p,
 .result-panel ul {
   font-family: "Inter", sans-serif;
-  color: var(--gray-700); /* Default color for text */
+  color: black; /* Default color for text */
   font-size: 1rem; /* Default font size */
   line-height: 1.6;
 }
@@ -243,12 +260,38 @@ main {
   width: fit-content;
 }
 
+.feedback-header-mob {
+  background-color: #71d88c;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+  width: fit-content;
+}
+
+.success {
+  background-color: green;
+  color: white !important;
+  padding: 8px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.danger {
+  background-color: red;
+  color: white !important;
+  padding: 8px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
 .text-success {
   color: var(--green); /* Example for a success color */
 }
 
 .text-danger {
-  color: var(--red); /* Example for a danger color */
+  color: red; /* Example for a danger color */
 }
 
 /* Handling colors for match score based on the value */
@@ -258,7 +301,8 @@ main {
   border-radius: 5px;
 }
 
-#file-upload {
+#file-upload,
+#multi-upload {
   display: none;
 }
 
@@ -283,7 +327,208 @@ main {
 
 .file-name {
   margin-left: 10px;
+  width: 100%;
+  max-width: 20rem; /* Keep it capped */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  display: block;
 }
+
+.matrix-table-wrapper {
+  /*overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;*/
+  width: 100%;
+  height: 30rem; /* Or any fixed height you prefer */
+  overflow: auto;
+  position: relative;
+  border: 1px solid #ccc;
+}
+
+.matrix-table {
+  width: max-content;
+  border-collapse: collapse;
+  min-width: 100%; /* Fits 3 resume columns + attribute column */
+  table-layout: fixed;
+}
+
+.result-panel.desktop-overview {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+/*
+.matrix-table th,
+.matrix-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
+  width: 15rem; 
+  word-wrap: break-word;
+  white-space: normal; 
+  overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}*/
+.matrix-table th,
+.matrix-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
+  width: 12rem;
+  background: #fff; /* 🧠 Fixes overlap "ghosting" */
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.matrix-table th {
+  background-color: #1c2c3b; /* Muted Navy	#1c2c3b or Charcoal	#343a40 */
+  color: white;
+  font-weight: bold;
+  z-index: 3;
+  position: sticky;
+  top: 0;
+  white-space: nowrap;
+}
+
+.matrix-table thead th:first-child {
+  z-index: 4; /* Highest: above row + column */
+  background: #1c2c3b;
+  color: white;
+}
+
+/*.matrix-table thead th {
+  position: sticky;
+  top: 0;
+  color: white;
+}*/
+.matrix-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #1c2c3b;
+  color: white;
+  white-space: nowrap;
+}
+
+/*.matrix-table th:first-child,
+.matrix-table td:first-child {
+  position: sticky;
+  left: 0;
+}*/
+.matrix-table th:first-child,
+.matrix-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2; /* below the top-left cell */
+  background: #f3f3f3; /* Contrast for visibility */
+  font-weight: bold;
+}
+
+  .matrix-table tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  .matrix-table td p.match-good {
+    background-color: #28a745;
+    color: white !important;
+    padding: 8px;
+    border-radius: 5px;
+    width: fit-content;
+    display: inline-block;
+  }
+
+  .matrix-table td p.match-bad {
+    background-color: red;
+    color: white !important;
+    padding: 8px;
+    border-radius: 5px;
+    width: fit-content;
+    display: inline-block;
+  }
+
+/*.matrix-table th:first-child {
+  position: sticky;
+  left: 0;
+  background: #1c2c3b;
+  z-index: 4;
+  width: 10rem;
+}
+
+.matrix-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  width: 10rem;
+}*/
+.upload-drop-area {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+  .upload-drop-area.dragover {
+    border-color: #3f51b5;
+    background-color: #f0f0f0;
+  }
+
+.matrix-grid-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Adjust for 3 columns by default */
+  gap: 15px;
+  grid-auto-rows: minmax(50px, auto); /* Ensures each row has at least 50px height */
+}
+
+.matrix-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+  font-weight: bold;
+}
+
+.attribute {
+  text-align: left;
+  padding: 10px;
+}
+
+.resume-file {
+  text-align: center;
+  padding: 10px;
+}
+
+.matrix-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Each attribute has 3 columns for each resume */
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.resume-data {
+  padding: 5px;
+  text-align: center;
+}
+
+.match-good {
+  color: green;
+}
+
+.match-bad {
+  color: red;
+}
+
 
 @media screen and (max-width: 650px) {
   .content {
@@ -336,10 +581,6 @@ main {
     padding: 1rem;
   }
 
-  .desktop-overview {
-    display: none;
-  }
-
   .mobile-overview span {
     display: block;
     margin-bottom: 0.75rem;
@@ -352,9 +593,15 @@ main {
 
   .result-panel p {
     font-size: 0.875rem; /* Adjust font size for smaller screens */
-  }
+   }
 
   .feedback-header {
+    font-size: 1rem;
+    padding: 0.5rem;
+    color: white;
+  }
+
+  .feedback-header-mob {
     font-size: 1rem;
     padding: 0.5rem;
   }

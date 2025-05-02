@@ -16,6 +16,10 @@ ________________________________________
 •	🧠 Performs fuzzy logic-based resume-to-job matching
 •	⚙️ Angular frontend with real-time feedback and interactive file upload
 •	📝 Provides resume feedback relative to your experience
+•	📁 Handles **multiple files** simultaneously and processes them all  
+•	📤 **Exports analyzed results to Excel**  
+•	📐 **Checks resume formatting** before processing  
+•	🎨 Enhanced **CSS styling**, replacing inline styles for better maintainability
 ________________________________________
 🧠 Tech Stack
 🔧 Backend
@@ -26,10 +30,12 @@ ________________________________________
 •	Regex, phonenumbers, uuid
 💻 Frontend
 •	Angular 16 (Standalone Components)
-•	Dynamic file upload, skill input, and match score display
+•	Dynamic file upload, skill input, and match score display	
+•	Grid layout with scrollable view similar to Excel  
+•	Optimized views for **mobile and desktop**  
 ________________________________________
 🧪 Sample Use Case
-1.	Upload your resume (.pdf, .docx, or image file)
+1.	Upload your resume (.pdf, .docx, or image file) — now supports **multiple files**
 2.	Paste a job description or manually enter skills
 3.	Review extracted details:
 o	📬 Email & phone number
@@ -39,6 +45,7 @@ o	🖼️ OCR confidence level (for image-based resumes)
 o	✅ Matched & ❌ Missing skills
 o	📝 Feedback on resume length, action verbs, and key noun usage
 4.	If image quality is low, the system will skip it and notify you
+5.	Export the result to **Excel for further analysis**
 ________________________________________
 📁 Project Structure
 ├── backend/
@@ -56,6 +63,10 @@ ________________________________________
 •	💡 Synonym and fuzzy skill matching
 •	🔒 Enforcing rate limiting to protect the API from abuse
 •	🌐 Enabling SSL (HTTPS) for secure communication
+•	📁 Handling **multiple file uploads and batch processing**  
+•	📐 Implementing **resume formatting checks**  
+•	🧾 Supporting **Excel-style UI with grid scrolling**  
+•	📱 Improving **UX for both mobile and desktop views**  
 ________________________________________
 💡 Motivation & Learning
 This project was a deep dive into integrating multiple technologies:
@@ -66,6 +77,9 @@ This project was a deep dive into integrating multiple technologies:
 •	🌐 Building a modern Angular frontend with Standalone Components
 •	🌐 Creating a responsive Angular frontend using standalone components
 •	🔐 Implementing rate limiting (via slowapi) and HTTPS for basic API security
+•	📤 Managing **multiple resume inputs** and **Excel export logic**  
+•	🎨 Deepening knowledge of **CSS layouts** and handling **scrollable grids**  
+•	📱 Enhancing UI/UX for **cross-platform usability** (Windows, Mobile)
 
 🛠️ Setup & Installation
 🔧 Backend
@@ -88,7 +102,6 @@ ENVIRONMENT=production
 API_URL=https://yourdomain.com
 ✅ Tip: Use a library like python-dotenv to load environment variables automatically from these files.
 
-
 ▶️ Run the API
 Development
 bash
@@ -110,8 +123,8 @@ uvicorn main:app --host 0.0.0.0 --port 8000 \
 bash
 CopyEdit
 npm install
+npm install xlsx
 ng serve
 # or for local HTTPS
 ng serve --ssl true --ssl-key certs/server.key --ssl-cert certs/server.crt
 🌐 Ensure the frontend accesses the backend via https://localhost:8000 or your configured domain.
-

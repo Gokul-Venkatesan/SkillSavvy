@@ -32,6 +32,9 @@ import pytesseract # OCR (Optical Character Recognition) tool
 from rapidfuzz import fuzz # fast string matching library for fuzzy matching and comparison
 
 import json
+import warnings
+
+warnings.filterwarnings("ignore", message="CropBox missing from /Page, defaulting to MediaBox")
 
 # Specify the path to the Tesseract binary
 load_dotenv()
@@ -51,7 +54,8 @@ tesseract_path = os.getenv("TESSERACT_PATH")
 
 #if ENV == "production":
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
-    
+#pytesseract.pytesseract.tesseract_cmd="C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+
 #tesseract_path = os.getenv("TESSERACT_PATH")
 
 #if tesseract_path:
@@ -221,6 +225,23 @@ def fuzzy_match_skills(text, skill_list, threshold=85):
 
     return found
 
+# Function to check if a document has typical resume sections
+def has_resume_sections(text):
+    # Define key resume sections
+    resume_keywords = [
+        r"(experience|work\s*history)",   # "experience" or "work history"
+        r"(skills|technical\s*skills)",   # "skills" or "technical skills"
+        r"(education|qualifications)",    # "education" or "qualifications"
+        r"(certifications|courses)",      # "certifications" or "courses"
+        r"(projects|portfolio)"           # "projects" or "portfolio"
+    ]
+
+    # Search for at least one of the sections in the text
+    for keyword in resume_keywords:
+        if re.search(keyword, text, re.IGNORECASE):
+            return True
+    return False
+    
 # -------- Dynamic Keyword Extraction --------
 def extract_keywords_from_job(job_text):
     doc = nlp(job_text)
@@ -250,6 +271,21 @@ def compare_resume_to_job(resume_text, job_text, years_of_experience, custom_ski
     resume_tech, resume_soft = extract_skills(resume_text, job_text, custom_skills, custom_soft_skills)
     job_tech, job_soft = extract_skills(job_text)
 
+    # Extract text from the file based on extension
+    #resume_text, _ = extract_resume_text(file_path)
+    resume_text = resume_text.strip()  # Clean any leading/trailing whitespace
+
+    if not resume_text or not has_resume_sections(resume_text):
+        return {
+            "score": 0,
+            "matched_skills": [],
+            "missing_skills": [],
+            "total_required": 0,
+            "total_matched": 0,
+            "feedback": [f"❌ The uploaded file appears to be empty or unreadable. Please upload a valid resume file."]
+        }
+
+    
     total = set(job_tech + job_soft)
     matched = set(resume_tech + resume_soft).intersection(total)
     missing_skills = total - matched
