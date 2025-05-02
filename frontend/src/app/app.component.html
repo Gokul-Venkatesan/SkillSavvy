@@ -369,7 +369,8 @@
     <h3 class="analysis-result" *ngIf="multiResults && multiResults.length > 0">
         <b><font color="white">Analysis Result of {{ multiResults.length }} {{ multiResults.length === 1 ? 'file' : 'files' }}</font></b>
     </h3>
-    <img src="exp-xl.png"
+    <img *ngIf="multiResults && multiResults.length > 0"
+          src="exp-xl.png"
          alt="Export to Excel"
          title="Export to Excel"
          (click)="exportExcel()"
