@@ -6,6 +6,8 @@
 //Gokul, 22-Apr to 23-Apr - File upload restriction, SSL enaled, RWD enabled, Improvised parsing
 // Identified a major issue in skills capture utilization & fixed
 // Added Env variable, 26-Apr-2025
+//Gokul, 29 - Apr till 02 - May - Multiple file upload, Resume format check and Export to excel.
+//    More CSS workings and remove inline styles
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
